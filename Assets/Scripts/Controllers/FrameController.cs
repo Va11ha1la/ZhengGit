@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,7 @@ public class FrameController : MonoBehaviour
     private string jsonFilePath; 
 
     private Color greyedOutColor = new Color(0.5f, 0.5f, 0.5f, 1f);
-
+    
 
     public void OnFrameClicked()
     {
@@ -23,8 +24,7 @@ public class FrameController : MonoBehaviour
             dayCheck.ClickCheck++;
             LoadSceneBasedOnClickOrder();
             SaveDayCheckData(); // 保存数据
-
-           
+            
             frameImage.color = greyedOutColor; // 将相框变灰
             GetComponent<Button>().interactable = false; // 禁止再次点击
             
@@ -58,7 +58,6 @@ public class FrameController : MonoBehaviour
     //读取DayData数据
     private void LoadDayCheckData()
     {
-       
             string jsonData = File.ReadAllText(jsonFilePath);
             dayCheck = JsonUtility.FromJson<DayCheck>(jsonData);
 
@@ -67,6 +66,9 @@ public class FrameController : MonoBehaviour
     private void SaveDayCheckData()
     {
         string jsonData = JsonUtility.ToJson(dayCheck);
-        File.WriteAllText(jsonFilePath, jsonData);
+        Debug.Log(jsonFilePath);
+        using(StreamWriter sw=new StreamWriter(jsonFilePath)){
+            sw.Write(jsonData);
+        }
     }
 }

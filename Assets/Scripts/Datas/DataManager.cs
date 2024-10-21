@@ -28,9 +28,9 @@ public class DataManager :MonoBehaviour
 [SerializeField]
 public class DayCheck
 {
-    public int ClickCheck ;//╒т└я╩╟╝ь▓щ╜ё╠ь╡у╗ў┴╦╝╕┤╬-->╖╜▒у╕у╘ч╓╨═э╗н├ц╨з╣√
+    public int ClickCheck ;//я┐╜я┐╜я┐╜я┐╜я┐╜╟╝я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜╦╝я┐╜я┐╜я┐╜-->я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜╨зя┐╜я┐╜
 
-    public int DayCount ;//╒т└я╩╟▓щ┐┤╡┌╝╕╠ь
+    public int DayCount ;//я┐╜я┐╜я┐╜я┐╜я┐╜╟▓щ┐┤я┐╜┌╝я┐╜я┐╜я┐╜
 
 
 }
