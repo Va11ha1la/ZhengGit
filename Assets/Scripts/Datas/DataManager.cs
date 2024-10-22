@@ -24,6 +24,8 @@ public class DataManager :MonoBehaviour
     
     }
 
+
+
 }
 [SerializeField]
 public class DayCheck
@@ -34,3 +36,4 @@ public class DayCheck
 
 
 }
+
