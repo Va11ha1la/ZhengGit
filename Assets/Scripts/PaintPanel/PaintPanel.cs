@@ -26,7 +26,7 @@ public class PaintPanel : MonoBehaviour
          if (_time > 5)
          {
              _time = 0;
-             SaveTexture(Application.persistentDataPath+$"/WritingBackup/writing{index}.png",spriteRenderer.sprite.texture);
+             DataManager.SaveTexture(Application.persistentDataPath+$"/WritingBackup/writing{index}.png",spriteRenderer.sprite.texture);
          }
          if (Input.GetMouseButton(0))
          {
@@ -53,37 +53,7 @@ public class PaintPanel : MonoBehaviour
 
         return clonedTexture;
     }
-    /// <summary>
-    /// 存纹理图到硬盘
-    /// </summary>
-    /// <param name="path"></param>
-    /// <param name="textureToSave"></param>
-    public void SaveTexture(string path,Texture2D textureToSave)
-    {
-        // 确保纹理已应用
-        textureToSave.Apply();
-
-        // 将Texture2D转换为PNG格式的字节数组
-        byte[] textureData = textureToSave.EncodeToPNG();
-
-        // 获取目录路径
-        string directory = Path.GetDirectoryName(path);
-
-        // 确保目录存在
-        if (!Directory.Exists(directory))
-        {
-            Directory.CreateDirectory(directory);
-        }
     
-        if (File.Exists(path))
-        {
-            File.Delete(path);
-        }
-
-        // 保存文件
-        File.WriteAllBytes(path, textureData);
-        Debug.Log($"Texture saved to: {path}");
-    }
 
     private bool _isNewLine = true;
     private Vector3 _lastPosition;
