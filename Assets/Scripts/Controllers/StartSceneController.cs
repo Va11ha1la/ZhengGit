@@ -26,7 +26,7 @@ public class StartSceneController : MonoBehaviour
     public GameObject wallImage;
 
 
-    private Vector3 cameraTargetPosition = new Vector3(0, -7, -10); // 相机的目标位置展示墙的下半部分
+    public Vector3 cameraTargetPosition = new Vector3(0, -7, -10); // 相机的目标位置展示墙的下半部分
     private float animationSpeed = 3f;
 
     private bool canCheck;
@@ -73,9 +73,9 @@ public class StartSceneController : MonoBehaviour
         }
         if(checkGameSituation.isStarted == false) {startBtn.onClick.AddListener(StartGame);
         for(int i = 0; i < Btns.Length; i++)
-            {
-                Btns[i].gameObject.SetActive(false);
-            }
+        {
+            Btns[i].gameObject.SetActive(false);
+        }
         }
         
     }

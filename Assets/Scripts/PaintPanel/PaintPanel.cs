@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 public class PaintPanel : MonoBehaviour
 {
     public Texture2D brush;//画板笔刷
     private SpriteRenderer spriteRenderer;//画板的~
-    private int index = 0;//当前第几幅画
-    private float _time = 0;//存档定时
     public float brushSize = 1;
     private void Start()
     {
@@ -17,25 +18,17 @@ public class PaintPanel : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         Texture2D newTexture2D = CopyTexture(spriteRenderer.sprite.texture);
         Sprite newSprite = Sprite.Create(newTexture2D, new Rect(0, 0, newTexture2D.width, newTexture2D.height), new Vector2(0.5f, 0.5f));
-        spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = newSprite;
     }
     void Update()
      {
-         _time += Time.deltaTime;
-         if (_time > 5)
-         {
-             _time = 0;
-             SaveTexture(Application.persistentDataPath+$"/WritingBackup/writing{index}.png",spriteRenderer.sprite.texture);
-         }
-         if (Input.GetMouseButton(0))
-         {
-             PaintTrack();
-         }
-         else if(Input.GetMouseButtonUp(0))
+         
+         PaintTrack();
+         if(Input.GetMouseButtonUp(0))
          {
              _isNewLine = true;
          }
+         
      }
     /// <summary>
     /// 克隆新的纹理图
@@ -53,37 +46,7 @@ public class PaintPanel : MonoBehaviour
 
         return clonedTexture;
     }
-    /// <summary>
-    /// 存纹理图到硬盘
-    /// </summary>
-    /// <param name="path"></param>
-    /// <param name="textureToSave"></param>
-    public void SaveTexture(string path,Texture2D textureToSave)
-    {
-        // 确保纹理已应用
-        textureToSave.Apply();
-
-        // 将Texture2D转换为PNG格式的字节数组
-        byte[] textureData = textureToSave.EncodeToPNG();
-
-        // 获取目录路径
-        string directory = Path.GetDirectoryName(path);
-
-        // 确保目录存在
-        if (!Directory.Exists(directory))
-        {
-            Directory.CreateDirectory(directory);
-        }
     
-        if (File.Exists(path))
-        {
-            File.Delete(path);
-        }
-
-        // 保存文件
-        File.WriteAllBytes(path, textureData);
-        Debug.Log($"Texture saved to: {path}");
-    }
 
     private bool _isNewLine = true;
     private Vector3 _lastPosition;
@@ -93,21 +56,27 @@ public class PaintPanel : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(ray,out RaycastHit hit,20f))
         {
-            if (hit.transform == transform)
+            if (Input.GetMouseButton(0))
             {
-                if (_isNewLine)
+                if (hit.transform == transform)
                 {
-                    _lastPosition=hit.point;
-                    _isNewLine = false;
+                    if (_isNewLine)
+                    {
+                        _lastPosition = hit.point;
+                        _isNewLine = false;
+                    }
+
+                    DrawLine(hit.point, _lastPosition);
                 }
-                DrawLine(hit.point,_lastPosition);
+
+                _lastPosition = hit.point;
             }
-            _lastPosition = hit.point;
+            transform.GetChild(1).position=new Vector3(hit.point.x,hit.point.y,-0.2f);
         }
     }
     void DrawLine(Vector3 start, Vector3 end)
     {
-        int steps = 40; // 可以根据需要调整此值
+        int steps = 20; // 可以根据需要调整此值
         for (int i = 0; i <= steps; i++)
         {
             float t = (float)i / steps;
@@ -153,6 +122,15 @@ public class PaintPanel : MonoBehaviour
             }
         }
         texture.Apply();
+    }
+
+    public Button notebook;
+    public void Confirm()
+    {
+        DataManager.SaveTexture(spriteRenderer.sprite.texture);
+        notebook.interactable = true;
+        gameObject.SetActive(false);
+        SceneManager.LoadScene("StartScene");
     }
 }
 
