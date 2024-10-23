@@ -1,7 +1,10 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
+using System.IO;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StartSceneController : MonoBehaviour
@@ -14,18 +17,42 @@ public class StartSceneController : MonoBehaviour
     public Transform cameraTransform;
     public Button startBtn;
     public CheckGameSituation checkGameSituation;
-
+    public Image blackoutPanel;
     public Button[] Btns;
- 
+    string jsonFilePath;
+    public DayCheck dayCheck;
+
+    public List<Sprite> wallImages;
+    public GameObject wallImage;
+
 
     private Vector3 cameraTargetPosition = new Vector3(0, -7, -10); // 相机的目标位置展示墙的下半部分
     private float animationSpeed = 3f;
-    
 
+    private bool canCheck;
+
+    private void Update()
+    {
+        
+    }
     void Start()
     {
-        if(checkGameSituation.isStarted == true)
+       
+        blackoutPanel.gameObject.SetActive(true);
+        blackoutPanel.transform.SetSiblingIndex(0);
+        blackoutPanel.color = new Color(255, 255, 255, 0);
+       
+        Cursor.visible = true;
+       
+        if (checkGameSituation.isStarted == true)
         {
+            jsonFilePath = Path.Combine(Application.persistentDataPath, "DayData.json");
+            LoadDayCheckData();
+           
+            int p = dayCheck.DayCount * 3 + dayCheck.ClickCheck;
+            wallImage.GetComponent<SpriteRenderer>().sprite = wallImages[p];
+            checkDayEnd();
+            canCheck = true;
             cameraTransform.position = cameraTargetPosition;
 
             CameraController.Instance.initialPosition = cameraTransform.position;
@@ -34,6 +61,14 @@ public class StartSceneController : MonoBehaviour
             for (int i = 0; i < Btns.Length; i++)
             {
                 Btns[i].gameObject.SetActive(true);
+            }
+            for (int i = 0; i < dayCheck.BtnIsClick.Length; i++)
+            {
+                if (dayCheck.BtnIsClick[i] == true)
+                {
+                    Btns[i].GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1f);
+                    Btns[i].GetComponent<Button>().interactable = false;
+                }
             }
         }
         if(checkGameSituation.isStarted == false) {startBtn.onClick.AddListener(StartGame);
@@ -78,5 +113,57 @@ public class StartSceneController : MonoBehaviour
          
         }
     }
+    //读取DayData数据
+    private void LoadDayCheckData()
+    {
+        string jsonData = File.ReadAllText(jsonFilePath);
+        dayCheck = JsonUtility.FromJson<DayCheck>(jsonData);
+
+    }
+    //保存
+    private void SaveDayCheckData()
+    {
+        string jsonData = JsonUtility.ToJson(dayCheck);
+        Debug.Log(jsonFilePath);
+        using (StreamWriter sw = new StreamWriter(jsonFilePath))
+        {
+            sw.Write(jsonData);
+        }
+    }
+
+    public bool checkDayEnd()
+    {
+        LoadDayCheckData();
+        if(dayCheck.ClickCheck == 3)
+        {
+            dayCheck.DayCount++;
+
+            blackoutPanel.transform.SetAsLastSibling();
+
+            blackoutPanel.DOFade(1.0f, 1.0f).OnComplete(() =>
+            {
+                dayCheck.ClickCheck = 0;
+                for (int i = 0; i < dayCheck.BtnIsClick.Length; i++)
+                {
+                    dayCheck.BtnIsClick[i] = false;
+                }
+                SaveDayCheckData();
+                SceneManager.LoadScene("StartScene");
+               
+            });
+            return true;
+
+        }
+        return false;
+    }
+    public void NextDayButton()//速通一天，检查用
+    {
+        dayCheck.ClickCheck = 3;
+        SaveDayCheckData();
+        checkDayEnd();
+
+
+    }
 }
+
 

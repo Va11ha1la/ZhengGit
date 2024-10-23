@@ -17,7 +17,8 @@ public class DataManager :MonoBehaviour
         DayCheck dayCheck = new DayCheck();
         dayCheck.ClickCheck = 0;
         dayCheck.DayCount = 0;
-        
+        dayCheck.BtnIsClick = new bool[] { false, false, false };
+
         string jsonStr = JsonUtility.ToJson(dayCheck);
         File.WriteAllText(Application.persistentDataPath + "/DayData.json", jsonStr);
         print(Application.persistentDataPath);
@@ -30,10 +31,11 @@ public class DataManager :MonoBehaviour
 [SerializeField]
 public class DayCheck
 {
-    public int ClickCheck ;//�����Ǽ��������˼���-->���������������Ч��
+    public int ClickCheck ;
 
-    public int DayCount ;//�����ǲ鿴�ڼ���
+    public int DayCount ;
 
+    public bool[] BtnIsClick;
 
 }
 

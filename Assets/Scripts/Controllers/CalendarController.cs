@@ -23,6 +23,10 @@ public class CalendarController : MonoBehaviour
 
     private DayCheck dayCheck;
     private string jsonFilePath;
+
+    public List<Sprite> wallImages;
+    public GameObject wallImage;
+
     int date;
 
 
@@ -32,6 +36,9 @@ public class CalendarController : MonoBehaviour
         string jsonData = File.ReadAllText(jsonFilePath);
         dayCheck = JsonUtility.FromJson<DayCheck>(jsonData);
         date = dayCheck.DayCount;
+        int p = dayCheck.DayCount * 3 + dayCheck.ClickCheck;
+        wallImage.GetComponent<SpriteRenderer>().sprite = wallImages[p];
+
         if (date > 0)
         {
             for (int i = 1; i < dayCheck.DayCount+1; i++)

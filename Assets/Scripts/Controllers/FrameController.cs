@@ -24,10 +24,8 @@ public class FrameController : MonoBehaviour
             dayCheck.ClickCheck++;
             LoadSceneBasedOnClickOrder();
             SaveDayCheckData(); // 保存数据
-            
-            frameImage.color = greyedOutColor; // 将相框变灰
-            GetComponent<Button>().interactable = false; // 禁止再次点击
-            
+
+
         }
     }
 
@@ -37,12 +35,18 @@ public class FrameController : MonoBehaviour
         {
             case 1:
                 UnityEngine.SceneManagement.SceneManager.LoadScene("CalendarScene");
+                dayCheck.BtnIsClick[0] = true;
+                SaveDayCheckData(); // 保存数据
                 break;
             case 2:
                 UnityEngine.SceneManagement.SceneManager.LoadScene("EatFoodScene");
+                dayCheck.BtnIsClick[1] = true;
+                SaveDayCheckData(); // 保存数据
                 break;
             case 3:
                 UnityEngine.SceneManagement.SceneManager.LoadScene("TableScene");
+                dayCheck.BtnIsClick[2] = true;
+                SaveDayCheckData(); // 保存数据
                 break;
         }
     }

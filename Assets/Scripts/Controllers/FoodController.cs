@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class FoodController : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class FoodController : MonoBehaviour
     private float shakeReactionTime = 0.5f; // 玩家按键反应时间
     private bool hasPressedCorrectKey = false;
     private Coroutine shakeCoroutine; // 控制抖动的协程
+    public Image blackoutPanel;
 
     public Camera mainCamera;
 
@@ -38,7 +40,8 @@ public class FoodController : MonoBehaviour
     {
         
         maxEat = 4;
-        
+        blackoutPanel.transform.SetSiblingIndex(0);
+        blackoutPanel.color = new Color(255, 255, 255, 0);
         fullnessSlide.maxValue = 12;
         Cursor.visible = false;
         spoonCursor.transform.position = new Vector3(Screen.width - 100, 100, 0);
@@ -54,6 +57,15 @@ public class FoodController : MonoBehaviour
             HandleCursorMove();
             CheckFoodZone();
             CheckEatZone();
+        }
+        else
+        {
+            blackoutPanel.transform.SetAsLastSibling();
+            blackoutPanel.DOFade(1.0f, 2.0f).OnComplete(() =>
+            {
+                
+                SceneManager.LoadScene("StartScene");
+            });
         }
     }
 
