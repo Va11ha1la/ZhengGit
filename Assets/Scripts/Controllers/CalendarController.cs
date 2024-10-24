@@ -27,11 +27,28 @@ public class CalendarController : MonoBehaviour
     public List<Sprite> wallImages;
     public GameObject wallImage;
 
+    public GameObject transitionAnimator; // 转场用Animator 物体
     int date;
+
+    //调整抖动参数用
+    [Header("抖动调参用")]
+    public Vector3[] punchV;
+    public  float[] duration;
+    public int[] vibrato;
+    public  float[] elasticity;
+    public float[] pinlu;//每隔多少秒抖一次
+    public float[] MoveSpeed ;//手移动时间（速度反比）
+    
+
+
+
 
 
     void Start()
     {
+
+        transitionAnimator.gameObject.SetActive(false);
+
         jsonFilePath = Path.Combine(Application.persistentDataPath, "DayData.json");
         string jsonData = File.ReadAllText(jsonFilePath);
         dayCheck = JsonUtility.FromJson<DayCheck>(jsonData);
@@ -46,10 +63,9 @@ public class CalendarController : MonoBehaviour
                 DateSlots[i].GetComponent<Image>().sprite = circleSprite[i-1];
             }
         }
-
-        blackoutPanel.transform.SetSiblingIndex(0);
         handSprite.SetActive(false);
-        blackoutPanel.color = new Color(255, 255, 255, 0);
+        //blackoutPanel.transform.SetSiblingIndex(0);
+        //blackoutPanel.color = new Color(255, 255, 255, 0);
         hintMessage.gameObject.SetActive(false);
         initialHandPosition = handSprite.transform.position; 
     }
@@ -79,47 +95,79 @@ public class CalendarController : MonoBehaviour
         }
     }
 
+    //private void AnimateHandMovement(Button clickedButton)
+    //{
+
+    //    handSprite.SetActive(true); 
+
+
+    //    handSprite.transform.DOMove(targetHandPosition, MoveSpeed[date])
+
+    //        .OnComplete(() =>
+    //        {
+    //            DrawCircleOnCalendar(clickedButton); 
+    //            AnimateHandRetract(); // 手缩
+    //        });
+
+
+    //    InvokeRepeating(nameof(ShakeHand), 0, pinlu[dayCheck.DayCount]); // 每隔0.5秒抖动一次，可调
+    //}
+
+    //private void ShakeHand()
+    //{
+
+    //    handSprite.transform.DOPunchPosition(
+    //        punch: punchV[date], // 抖动的方向和强度，下面都可以调
+    //        duration: duration[date],                   // 抖动的持续时间
+    //        vibrato: vibrato[date],                       // 抖动的频率
+    //        elasticity: elasticity[date]                // 弹性效果
+    //    );
+    //}
     private void AnimateHandMovement(Button clickedButton)
     {
+        handSprite.SetActive(true);
 
-        handSprite.SetActive(true); 
-
-   
-        handSprite.transform.DOMove(targetHandPosition, 2.0f)
-           
+        // 使用 DOTween 的 OnUpdate 来在移动过程中触发抖动
+        handSprite.transform.DOMove(targetHandPosition, MoveSpeed[date])
+            .SetEase(Ease.Linear) // 线性移动
+            .OnUpdate(() =>
+            {
+                // 抖动手的位置，同时移动手
+                ShakeHand();
+            })
             .OnComplete(() =>
             {
-                DrawCircleOnCalendar(clickedButton); 
-                AnimateHandRetract(); // 手缩
+                DrawCircleOnCalendar(clickedButton);
+                AnimateHandRetract(); // 手缩回动画
             });
-
-      
-        InvokeRepeating(nameof(ShakeHand), 0, 0.5f); // 每隔0.5秒抖动一次，可调
     }
 
     private void ShakeHand()
     {
-       
-        handSprite.transform.DOPunchPosition(
-            punch: new Vector3(0.1f, 0.1f, 0), // 抖动的方向和强度，下面都可以调
-            duration: 0.1f,                   // 抖动的持续时间
-            vibrato: 1,                       // 抖动的频率
-            elasticity: 0.5f                   // 弹性效果
+        // 手部抖动效果，使用 DOShakePosition 实现持续抖动
+        handSprite.transform.DOShakePosition(
+            duration: duration[date],    // 抖动的持续时间
+            strength: punchV[date],      // 抖动的强度
+            vibrato: vibrato[date],      // 抖动的频率
+            randomness: 90,              // 抖动的随机性
+            snapping: false,             // 是否吸附到整数位置
+            fadeOut: true                // 抖动结束时是否逐渐减弱
         );
     }
 
 
-   
+
 
     private void AnimateHandRetract()
     {
-        //// 停止定时抖动
-        //CancelInvoke(nameof(ShakeHand));
+      
+
         // 使用 DOTween 缩回手臂到初始位置
         handSprite.transform.DOMove(initialHandPosition, 2.0f).OnComplete(() =>
         {
             handSprite.SetActive(false);
-            blackoutPanel.transform.SetSiblingIndex(1);
+           // blackoutPanel.gameObject.SetActive(true);
+           //blackoutPanel.transform.SetAsLastSibling();
             BlackoutTransition(); // 黑场过渡
         });
     }
@@ -132,12 +180,25 @@ public class CalendarController : MonoBehaviour
 
     private void BlackoutTransition()
     {
-        blackoutPanel.DOFade(1.0f, 1.0f).OnComplete(() =>
+        transitionAnimator.SetActive(true);
+        for(int i = 0; i < DateSlots.Length; i++)
         {
-            SceneManager.LoadScene("StartScene");
-        });
-    }
+            DateSlots[i].gameObject.SetActive(false);
+        }
+        
+        transitionAnimator.GetComponent<Animator>().SetTrigger("StartTrans");
 
+        StartCoroutine(LoadSceneAfterAnimation());
+    }
+    //等待动画播放完成后加载新场景
+    private IEnumerator LoadSceneAfterAnimation()
+    {
+        
+        yield return new WaitForSeconds(2.9f);
+
+       
+        SceneManager.LoadScene("StartScene");
+    }
     private bool CanClickDate(Button clickedButton)
     {
        
@@ -146,7 +207,7 @@ public class CalendarController : MonoBehaviour
         {
             return false;
         }
-        return true; // 示例中暂时允许所有点击
+        return true;
     }
 
     private void ShowHintMessage()

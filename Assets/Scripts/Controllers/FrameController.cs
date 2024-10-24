@@ -70,7 +70,7 @@ public class FrameController : MonoBehaviour
     private void SaveDayCheckData()
     {
         string jsonData = JsonUtility.ToJson(dayCheck);
-        Debug.Log(jsonFilePath);
+        
         using(StreamWriter sw=new StreamWriter(jsonFilePath)){
             sw.Write(jsonData);
         }
