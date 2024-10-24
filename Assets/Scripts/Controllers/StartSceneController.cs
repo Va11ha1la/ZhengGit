@@ -49,9 +49,10 @@ public class StartSceneController : MonoBehaviour
             jsonFilePath = Path.Combine(Application.persistentDataPath, "DayData.json");
             LoadDayCheckData();
 
-            char c = dayCheck.ClickCheck == 1 ? 'a' : dayCheck.ClickCheck == 2 ? 'b' : 'c';
-            
+            char c = dayCheck.ClickCheck == 0 ? 'a' : dayCheck.ClickCheck == 1 ? 'b' : 'c';
+          
             //¸üÐÂÍ¼Æ¬
+<<<<<<< Updated upstream
             Texture2D texture = Resources.Load<Texture2D>($"Image/Backgrounds/{dayCheck.DayCount+1}{c}");
             wallImage.GetComponent<SpriteRenderer>().sprite =Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             Texture2D texture1 = Resources.Load<Texture2D>($"Image/Btns/{dayCheck.DayCount+1}{c}_ri");
@@ -62,6 +63,18 @@ public class StartSceneController : MonoBehaviour
             Btns[2].GetComponent<Image>().sprite=Sprite.Create(texture3, new Rect(0, 0, texture3.width, texture3.height), new Vector2(0.5f, 0.5f));
             
             
+=======
+            Sprite BGImage = Resources.Load<Sprite>($"Image/Backgrounds/{dayCheck.DayCount+1}{c}");
+            wallImage.GetComponent<SpriteRenderer>().sprite = BGImage;
+            Sprite texture1 = Resources.Load<Sprite>($"Image/Btns/{dayCheck.DayCount+1}{c}_ri");
+            Btns[0].GetComponent<Image>().sprite=texture1;
+            Sprite texture2 = Resources.Load<Sprite>($"Image/Btns/{dayCheck.DayCount + 1}{c}_eat");
+            Btns[1].GetComponent<Image>().sprite=texture2;
+            Sprite texture3 = Resources.Load<Sprite>($"Image/Btns/{dayCheck.DayCount + 1}{c}_white");
+            Btns[2].GetComponent<Image>().sprite=texture3;
+
+
+>>>>>>> Stashed changes
             checkDayEnd();
             canCheck = true;
             cameraTransform.position = cameraTargetPosition;
@@ -72,10 +85,15 @@ public class StartSceneController : MonoBehaviour
             for (int i = 0; i < Btns.Length; i++)
             {
                 Btns[i].gameObject.SetActive(true);
+                if (dayCheck.DayCount >= 7)
+                {
+                    Btns[1].GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1f);
+                    Btns[1].GetComponent<Button>().interactable = false;
+                }
             }
             for (int i = 0; i < dayCheck.BtnIsClick.Length; i++)
             {
-                if (dayCheck.BtnIsClick[i] == true)
+                if (dayCheck.BtnIsClick[i] == true )
                 {
                     Btns[i].GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1f);
                     Btns[i].GetComponent<Button>().interactable = false;
