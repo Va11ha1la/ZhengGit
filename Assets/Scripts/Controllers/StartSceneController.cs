@@ -20,7 +20,7 @@ public class StartSceneController : MonoBehaviour
     public Image blackoutPanel;
     public Button[] Btns;
     string jsonFilePath;
-    public DayCheck dayCheck;
+    public DayCheck dayCheck=new DayCheck();
 
     public List<Sprite> wallImages;
     public GameObject wallImage;
@@ -48,9 +48,12 @@ public class StartSceneController : MonoBehaviour
         {
             jsonFilePath = Path.Combine(Application.persistentDataPath, "DayData.json");
             LoadDayCheckData();
-           
-            int p = dayCheck.DayCount * 3 + dayCheck.ClickCheck;
-            wallImage.GetComponent<SpriteRenderer>().sprite = wallImages[p];
+
+            char c = dayCheck.ClickCheck == 1 ? 'a' : dayCheck.ClickCheck == 2 ? 'b' : 'c';
+            Texture2D texture = Resources.Load<Texture2D>($"Image/Backgrounds/{dayCheck.DayCount+1}{c}");
+            Debug.Log($"Image/Backgrounds/{dayCheck.DayCount+1}{c}");
+            Debug.Log(texture);
+            wallImage.GetComponent<SpriteRenderer>().sprite =Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             checkDayEnd();
             canCheck = true;
             cameraTransform.position = cameraTargetPosition;
@@ -71,13 +74,13 @@ public class StartSceneController : MonoBehaviour
                 }
             }
         }
-        if(checkGameSituation.isStarted == false) {startBtn.onClick.AddListener(StartGame);
-        for(int i = 0; i < Btns.Length; i++)
-        {
-            Btns[i].gameObject.SetActive(false);
+        if(checkGameSituation.isStarted == false) {
+            startBtn.onClick.AddListener(StartGame);
+            for(int i = 0; i < Btns.Length; i++)
+            {
+                Btns[i].gameObject.SetActive(false);
+            }
         }
-        }
-        
     }
 
     void StartGame()
@@ -130,7 +133,7 @@ public class StartSceneController : MonoBehaviour
             sw.Write(jsonData);
         }
     }
-
+    
     public bool checkDayEnd()
     {
         LoadDayCheckData();
@@ -161,8 +164,6 @@ public class StartSceneController : MonoBehaviour
         dayCheck.ClickCheck = 3;
         SaveDayCheckData();
         checkDayEnd();
-
-
     }
 }
 

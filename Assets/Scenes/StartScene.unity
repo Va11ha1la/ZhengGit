@@ -224,6 +224,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 8956ef040d0ca6b4e9c3305087b3e9f6, type: 3}
   - {fileID: 21300000, guid: 8956ef040d0ca6b4e9c3305087b3e9f6, type: 3}
   wallImage: {fileID: 1772288835}
+  cameraTargetPosition: {x: 0, y: -7, z: -10}
 --- !u!4 &115476869
 Transform:
   m_ObjectHideFlags: 0
@@ -1851,7 +1852,7 @@ SpriteRenderer:
   m_SortingLayerID: 689751165
   m_SortingLayer: -1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: a7e93963ce08db0449588dbf236cfe4c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7e70dcb6fb59d884b87b8085e3637ed1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
