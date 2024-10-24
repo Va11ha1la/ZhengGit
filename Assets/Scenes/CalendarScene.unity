@@ -548,7 +548,7 @@ SpriteRenderer:
   m_SortingLayerID: 689751165
   m_SortingLayer: -1
   m_SortingOrder: 1
-  m_Sprite: {fileID: -1414087343, guid: 1fe03051af326294a8e6c56907ef0170, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ce06409fe4aa1bb41bcec77eb8d6e40d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2527,12 +2527,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d642ac90f1daca24792df915e47c4c9f, type: 3}
+  m_Sprite: {fileID: 918780651, guid: d642ac90f1daca24792df915e47c4c9f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.6, y: 3.6}
+  m_Size: {x: 2.4, y: 3.25}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -3041,7 +3041,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handSprite: {fileID: 970832748}
-  circleSprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  circleSprite:
+  - {fileID: 21300000, guid: 1ce655462288a3d4b81406d308073a61, type: 3}
+  - {fileID: 21300000, guid: 4fa46798e68ba6740aa2f072cfbe7da1, type: 3}
+  - {fileID: 21300000, guid: ecd970ad5d6bf2c42b8925c0caa83636, type: 3}
+  - {fileID: 21300000, guid: 989dc271ad89e9c48bb67ea8cb0b200a, type: 3}
+  - {fileID: 21300000, guid: cf1bceecc11d35d4cbb5ff5fa4da1729, type: 3}
+  - {fileID: 951239719, guid: cf2595ba8a23df74db4dc55e4ec54eac, type: 3}
+  - {fileID: 21300000, guid: 638e592bd71e3bb4dabfbfd7218c0702, type: 3}
+  - {fileID: 21300000, guid: 7389a37a56ecc9e46a577fa695a1b6e8, type: 3}
+  - {fileID: 21300000, guid: 77748d9d9ae822f42a41dcf5a17aafec, type: 3}
+  - {fileID: 21300000, guid: 525cf53967e42cd45b34735f807dc6e9, type: 3}
+  - {fileID: 21300000, guid: 943bb2dac69efa34f8c2cd3a34813382, type: 3}
+  - {fileID: 21300000, guid: e24615a70d91ef940950b9b8d2244450, type: 3}
+  - {fileID: 21300000, guid: bcfb73adf2f101540ba40852e5a499c7, type: 3}
+  - {fileID: 21300000, guid: 2ed272c483f9707428b6934619cc91ce, type: 3}
+  - {fileID: 21300000, guid: 45f4d064b3aacdd469ce8a464cf1ea26, type: 3}
+  - {fileID: 21300000, guid: cacea40b40b0bc3448e5d716425e57c6, type: 3}
+  - {fileID: 21300000, guid: 34cc56c57e3f85f4c90a8298d1f95419, type: 3}
+  - {fileID: 21300000, guid: 5869b39126c6b3544ab5c2d968e3518c, type: 3}
   blackoutPanel: {fileID: 511480189}
   hintMessage: {fileID: 1252941570}
   canvasRectTransform: {fileID: 36135758}

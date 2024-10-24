@@ -11,7 +11,7 @@ using Sequence = DG.Tweening.Sequence;
 public class CalendarController : MonoBehaviour
 {
     public GameObject handSprite;
-    public Sprite circleSprite; 
+    public Sprite[] circleSprite; 
     public Image blackoutPanel; 
     public GameObject hintMessage; 
     public RectTransform canvasRectTransform; // CanvasµÄRectTransform
@@ -43,7 +43,7 @@ public class CalendarController : MonoBehaviour
         {
             for (int i = 1; i < dayCheck.DayCount+1; i++)
             {
-                DateSlots[i].GetComponent<Image>().sprite = circleSprite;
+                DateSlots[i].GetComponent<Image>().sprite = circleSprite[i-1];
             }
         }
 
@@ -126,7 +126,8 @@ public class CalendarController : MonoBehaviour
 
     private void DrawCircleOnCalendar(Button clickedButton)
     {
-        clickedButton.GetComponent<Image>().sprite = circleSprite; 
+        int date = dayCheck.DayCount;
+        clickedButton.GetComponent<Image>().sprite = circleSprite[date]; 
     }
 
     private void BlackoutTransition()
