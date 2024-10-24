@@ -44,16 +44,25 @@ public class StartSceneController : MonoBehaviour
        
         Cursor.visible = true;
        
-        if (checkGameSituation.isStarted == true)
+        if (checkGameSituation.isStarted)
         {
             jsonFilePath = Path.Combine(Application.persistentDataPath, "DayData.json");
             LoadDayCheckData();
 
             char c = dayCheck.ClickCheck == 1 ? 'a' : dayCheck.ClickCheck == 2 ? 'b' : 'c';
+            
+            //¸üÐÂÍ¼Æ¬
             Texture2D texture = Resources.Load<Texture2D>($"Image/Backgrounds/{dayCheck.DayCount+1}{c}");
-            Debug.Log($"Image/Backgrounds/{dayCheck.DayCount+1}{c}");
-            Debug.Log(texture);
             wallImage.GetComponent<SpriteRenderer>().sprite =Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            Texture2D texture1 = Resources.Load<Texture2D>($"Image/Btns/{dayCheck.DayCount+1}{c}_ri");
+            Debug.Log(texture1);
+            Btns[0].GetComponent<Image>().sprite=Sprite.Create(texture1, new Rect(0, 0, texture1.width, texture1.height), new Vector2(0.5f, 0.5f));
+            Texture2D texture2 = Resources.Load<Texture2D>($"Image/Btns/{dayCheck.DayCount+1}{c}_eat");
+            Btns[1].GetComponent<Image>().sprite=Sprite.Create(texture2, new Rect(0, 0, texture2.width, texture2.height), new Vector2(0.5f, 0.5f));
+            Texture2D texture3 = Resources.Load<Texture2D>($"Image/Btns/{dayCheck.DayCount+1}{c}_white");
+            Btns[2].GetComponent<Image>().sprite=Sprite.Create(texture3, new Rect(0, 0, texture3.width, texture3.height), new Vector2(0.5f, 0.5f));
+            
+            
             checkDayEnd();
             canCheck = true;
             cameraTransform.position = cameraTargetPosition;
