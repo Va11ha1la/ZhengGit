@@ -32,7 +32,9 @@ public class DataManager :MonoBehaviour
     {
         // 确保纹理已应用
         textureToSave.Apply();
-        string path = Application.persistentDataPath + "/WritingBackup/writing1.png";
+        string jsonData = File.ReadAllText(Path.Combine(Application.persistentDataPath, "DayData.json"));
+        DayCheck dayCheck = JsonUtility.FromJson<DayCheck>(jsonData);
+        string path = Application.persistentDataPath + $"/WritingBackup/writing{dayCheck.DayCount+1}.png";
         // 将Texture2D转换为PNG格式的字节数组
         byte[] textureData = textureToSave.EncodeToPNG();
 
