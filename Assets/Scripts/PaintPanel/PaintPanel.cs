@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using DG.Tweening;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,6 +14,9 @@ public class PaintPanel : MonoBehaviour
     public Texture2D brush;//画板笔刷
     private SpriteRenderer spriteRenderer;//画板的~
     public float brushSize = 1;
+    public TextMeshProUGUI timeText;
+    public GameObject progressBar;
+    public int timeLimit;
     private void Start()
     {
         //克隆新的纹理来画，原纹理原封不动作为每次的模版
@@ -19,9 +24,11 @@ public class PaintPanel : MonoBehaviour
         Texture2D newTexture2D = CopyTexture(spriteRenderer.sprite.texture);
         Sprite newSprite = Sprite.Create(newTexture2D, new Rect(0, 0, newTexture2D.width, newTexture2D.height), new Vector2(0.5f, 0.5f));
         spriteRenderer.sprite = newSprite;
+        progressBar.transform.DOLocalMove(new Vector3(0, -8, 0), timeLimit).onComplete+=Confirm;
     }
     void Update()
      {
+         timeText.text=DateTime.Now.ToString("HH:mm");
          
          PaintTrack();
          if(Input.GetMouseButtonUp(0))
@@ -71,7 +78,6 @@ public class PaintPanel : MonoBehaviour
 
                 _lastPosition = hit.point;
             }
-            transform.GetChild(1).position=new Vector3(hit.point.x,hit.point.y,-0.2f);
         }
     }
     void DrawLine(Vector3 start, Vector3 end)
