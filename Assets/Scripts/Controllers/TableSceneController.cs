@@ -12,15 +12,32 @@ public class TableSceneController : MonoBehaviour
     public Image backgroundImage;
     public Button notebookButton;
     DayCheck dayCheck;
+    int date;
 
     private void Awake()
     {
         string jsonData = File.ReadAllText(Path.Combine(Application.persistentDataPath, "DayData.json"));
         dayCheck = JsonUtility.FromJson<DayCheck>(jsonData);
+        date = dayCheck.DayCount;
     }
     
     void Start()
     {
+        if (date >= 0 && date <= 3)
+        {
+            Debug.Log(1);
+            SoundManager.instance.PlayBGM(Globals.BGM2, 0.8f);
+        }
+        else if (date > 3 && date <= 5)
+        {
+
+            SoundManager.instance.PlayLoopingSound(Globals.Breath1, 0.4f);
+        }
+        else
+        {
+
+            SoundManager.instance.PlayLoopingSound(Globals.Breath2, 0.9f);
+        }
         char c='a';
         switch (dayCheck.ClickCheck)
         {

@@ -136,6 +136,7 @@ public class PaintPanel : MonoBehaviour
         DataManager.SaveTexture(spriteRenderer.sprite.texture);
         notebook.interactable = true;
         gameObject.SetActive(false);
+        SoundManager.instance.StopLoopingSound();
         SceneManager.LoadScene("StartScene");
     }
 }

@@ -273,11 +273,11 @@ public class FoodController : MonoBehaviour
     }
     private void BlackoutTransition()
     {
-        transitionAnimator.SetActive(true);
-        for (int i = 0; i < TransObjectToBeClosed.Length; i++)
-        {
-            TransObjectToBeClosed[i].gameObject.SetActive(false);
-        }
+        //transitionAnimator.SetActive(true);
+        //for (int i = 0; i < TransObjectToBeClosed.Length; i++)
+        //{
+        //    TransObjectToBeClosed[i].gameObject.SetActive(false);
+        //}
 
         transitionAnimator.GetComponent<Animator>().SetTrigger("StartTrans");
 
@@ -288,7 +288,7 @@ public class FoodController : MonoBehaviour
 
         yield return new WaitForSeconds(2.9f);
 
-
+        SoundManager.instance.StopLoopingSound();
         SceneManager.LoadScene("StartScene");
     }
     public void HandleCursorMove()

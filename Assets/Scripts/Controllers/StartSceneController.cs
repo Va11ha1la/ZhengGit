@@ -43,24 +43,37 @@ public class StartSceneController : MonoBehaviour
         {
             SoundManager.instance.PlayBGM(Globals.BGM1Long,0.8f);
         }
-        blackoutPanel.gameObject.SetActive(true);
-        blackoutPanel.transform.SetSiblingIndex(0);
-        blackoutPanel.color = new Color(255, 255, 255, 0);
+        transitionAnimator.SetActive(false);
+        //blackoutPanel.gameObject.SetActive(true);
+        //blackoutPanel.transform.SetSiblingIndex(0);
+        //blackoutPanel.color = new Color(255, 255, 255, 0);
         NextDayBtn.gameObject.SetActive(false);
         Cursor.visible = true;
        
         if (checkGameSituation.isStarted)
         {
             StartPhoto.gameObject.SetActive(false);
-            if(date>0&& date<=5)
-                SoundManager.instance.PlayBGM(Globals.BGM2, 0.8f);
+           
             jsonFilePath = Path.Combine(Application.persistentDataPath, "DayData.json");
             LoadDayCheckData();
             date = dayCheck.DayCount;
 
             char c = dayCheck.ClickCheck == 0 ? 'a' : dayCheck.ClickCheck == 1 ? 'b' : 'c';
             int p = dayCheck.DayCount;
+            if (date > 0 && date <= 2)
+            {
+                SoundManager.instance.PlayBGM(Globals.BGM2, 0.8f);
+            }
             //¸üÐÂÍ¼Æ¬
+            else if (date > 3 && date <= 5)
+            {
+                SoundManager.instance.PlayBGM(Globals.BGM3_Full, 0.75f);
+            }
+            else if (date > 5 && date <= 6)
+            {
+                SoundManager.instance.PlayBGM(Globals.BGM4, 0.75f);
+                SoundManager.instance.PlayLoopingSound(Globals.Breath1, 0.4f);
+            }
             if (dayCheck.DayCount >=7 && dayCheck.DayCount < 12)
             {
                 p = 4;
@@ -177,20 +190,14 @@ public class StartSceneController : MonoBehaviour
         {
             dayCheck.DayCount++;
 
-            blackoutPanel.transform.SetAsLastSibling();
-
-            blackoutPanel.DOFade(1.0f, 1.0f).OnComplete(() =>
+            for (int i = 0; i < dayCheck.BtnIsClick.Length; i++)
             {
-                dayCheck.ClickCheck = 0;
-                for (int i = 0; i < dayCheck.BtnIsClick.Length; i++)
-                {
-                    dayCheck.BtnIsClick[i] = false;
-                }
-                SaveDayCheckData();
-                transitionAnimator.SetActive(true);
-                transitionAnimator.GetComponent<Animator>().SetTrigger("StartTrans");
-                StartCoroutine(LoadSceneAfterAnimation());
-            });
+                dayCheck.BtnIsClick[i] = false;
+            }
+            SaveDayCheckData();
+            transitionAnimator.SetActive(true);
+            transitionAnimator.GetComponent<Animator>().SetTrigger("StartTrans");
+            StartCoroutine(LoadSceneAfterAnimation());
             return true;
 
         }else if(dayCheck.ClickCheck == 2 && dayCheck.DayCount > 6)
@@ -207,6 +214,7 @@ public class StartSceneController : MonoBehaviour
                     dayCheck.BtnIsClick[i] = false;
                 }
                 SaveDayCheckData();
+                transitionAnimator.SetActive(true);
                 SceneManager.LoadScene("StartScene");
 
             });

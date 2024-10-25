@@ -109,10 +109,21 @@ public class SoundManager : MonoBehaviour
     {
         audioSource.volume = volume;
     }
+    // 停止循环音效
+    public void StopLoopingSound()
+    {
+        loopingAudioSource.Stop();
+    }
 
+    // 停止所有音频
+    public void StopAllAudio()
+    {
+        audioSource.Stop();
+        loopingAudioSource.Stop();
+    }
     // 设置音效音量
     public void SetSFXVolume(float volume)
     {
-        // 这可以根据你的需求调整音效的音量
+       
     }
 }

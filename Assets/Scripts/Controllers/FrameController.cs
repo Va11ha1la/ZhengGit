@@ -20,11 +20,11 @@ public class FrameController : MonoBehaviour
         
         if(Random.Range(0, 2) == 0)
         {
-            SoundManager.instance.PlayBGM(Globals.Button1, 0.8f);
+            SoundManager.instance.PlaySound(Globals.Button1, 0.8f);
         }
         else
         {
-            SoundManager.instance.PlayBGM(Globals.Button2, 0.8f);
+            SoundManager.instance.PlaySound(Globals.Button2, 0.8f);
         }
         jsonFilePath = Path.Combine(Application.persistentDataPath, "DayData.json");
         LoadDayCheckData(); // º”‘ÿ ˝æ›
