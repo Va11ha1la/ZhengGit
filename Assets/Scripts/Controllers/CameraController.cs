@@ -37,8 +37,6 @@ public class CameraController : MonoBehaviour
             float yOffset = Mathf.Clamp((mousePosition.y / Screen.height - 0.5f) * moveSpeed, -maxOffset, maxOffset);
             transform.position = new Vector3(initialPosition.x + xOffset, initialPosition.y + yOffset, initialPosition.z);
 
-            
-
         }
     }
 

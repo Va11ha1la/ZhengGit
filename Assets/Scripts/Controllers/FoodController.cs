@@ -63,6 +63,7 @@ public class FoodController : MonoBehaviour
     private DayCheck dayCheck;
     private string jsonFilePath;
     int date;
+    public Animator Effects;
 
     [Header("抖动该变量")]
     public float[] randomLeft;
@@ -76,7 +77,7 @@ public class FoodController : MonoBehaviour
     public int[] vibrato;
     public float[] elasticity;
 
-  
+    
 
     [Header("丢弃物位置")]
     public GameObject[] Drops;
@@ -85,13 +86,13 @@ public class FoodController : MonoBehaviour
     public Vector3[] Drops3;//存储三个丢弃物的位置
     private void Start()
     {
-
+        Effects.gameObject.SetActive(false);
         TipText.gameObject.SetActive(false);
         jsonFilePath = Path.Combine(Application.persistentDataPath, "DayData.json");
         string jsonData = File.ReadAllText(jsonFilePath);
         dayCheck = JsonUtility.FromJson<DayCheck>(jsonData);
         date = dayCheck.DayCount;
-        char c = dayCheck.ClickCheck == 0 ? 'a' : dayCheck.ClickCheck == 1 ? 'b' : 'c';
+        char c = dayCheck.ClickCheck == 1 ? 'a' : dayCheck.ClickCheck == 2 ? 'b' : 'c';
         string name = "EatTable";
         Sprite BGImage = Resources.Load<Sprite>($"Image/Backgrounds/{name}{dayCheck.DayCount + 1}{c}");
 
@@ -108,6 +109,10 @@ public class FoodController : MonoBehaviour
         if(date == 5)
         {
             spoonCursor.sprite = Day6spoonCondition[0];
+        }
+        if (date == 3)
+        {
+            Effects.gameObject.SetActive(true);
         }
         previousMousePosition = Input.mousePosition; // 初始化鼠标位置
         isHoldFoodFlag = false;

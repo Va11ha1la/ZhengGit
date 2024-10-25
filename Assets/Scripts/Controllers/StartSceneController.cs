@@ -14,8 +14,10 @@ public class StartSceneController : MonoBehaviour
     {
         Instance = this;
     }
+    public GameObject StartPhoto;
     public Transform cameraTransform;
     public Button startBtn;
+    public Button NextDayBtn;
     public CheckGameSituation checkGameSituation;
     public Image blackoutPanel;
     public Button[] Btns;
@@ -24,7 +26,7 @@ public class StartSceneController : MonoBehaviour
 
     public List<Sprite> wallImages;
     public GameObject wallImage;
-
+    int date;
 
     public Vector3 cameraTargetPosition = new Vector3(0, -7, -10); // 相机的目标位置展示墙的下半部分
     private float animationSpeed = 3f;
@@ -46,24 +48,16 @@ public class StartSceneController : MonoBehaviour
        
         if (checkGameSituation.isStarted)
         {
+            StartPhoto.gameObject.SetActive(false);
+            NextDayBtn.gameObject.SetActive(false);
             jsonFilePath = Path.Combine(Application.persistentDataPath, "DayData.json");
             LoadDayCheckData();
+            date = dayCheck.DayCount;
 
             char c = dayCheck.ClickCheck == 0 ? 'a' : dayCheck.ClickCheck == 1 ? 'b' : 'c';
           
             //更新图片
-<<<<<<< Updated upstream
-            Texture2D texture = Resources.Load<Texture2D>($"Image/Backgrounds/{dayCheck.DayCount+1}{c}");
-            wallImage.GetComponent<SpriteRenderer>().sprite =Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-            Texture2D texture1 = Resources.Load<Texture2D>($"Image/Btns/{dayCheck.DayCount+1}{c}_ri");
-            Btns[0].GetComponent<Image>().sprite=Sprite.Create(texture1, new Rect(0, 0, texture1.width, texture1.height), new Vector2(0.5f, 0.5f));
-            Texture2D texture2 = Resources.Load<Texture2D>($"Image/Btns/{dayCheck.DayCount+1}{c}_eat");
-            Btns[1].GetComponent<Image>().sprite=Sprite.Create(texture2, new Rect(0, 0, texture2.width, texture2.height), new Vector2(0.5f, 0.5f));
-            Texture2D texture3 = Resources.Load<Texture2D>($"Image/Btns/{dayCheck.DayCount+1}{c}_white");
-            Btns[2].GetComponent<Image>().sprite=Sprite.Create(texture3, new Rect(0, 0, texture3.width, texture3.height), new Vector2(0.5f, 0.5f));
-            
-            
-=======
+
             Sprite BGImage = Resources.Load<Sprite>($"Image/Backgrounds/{dayCheck.DayCount+1}{c}");
             wallImage.GetComponent<SpriteRenderer>().sprite = BGImage;
             Sprite texture1 = Resources.Load<Sprite>($"Image/Btns/{dayCheck.DayCount+1}{c}_ri");
@@ -73,9 +67,11 @@ public class StartSceneController : MonoBehaviour
             Sprite texture3 = Resources.Load<Sprite>($"Image/Btns/{dayCheck.DayCount + 1}{c}_white");
             Btns[2].GetComponent<Image>().sprite=texture3;
 
-
->>>>>>> Stashed changes
-            checkDayEnd();
+           
+            if(dayCheck.ClickCheck==3||(dayCheck.ClickCheck==2 && dayCheck.DayCount > 6))
+            {
+                NextDayBtn.gameObject.SetActive(true);
+            }
             canCheck = true;
             cameraTransform.position = cameraTargetPosition;
 
@@ -109,6 +105,7 @@ public class StartSceneController : MonoBehaviour
         }
     }
 
+    
     void StartGame()
     {
         DataManager.Instance.InitGameData();
@@ -124,6 +121,12 @@ public class StartSceneController : MonoBehaviour
         //    cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraTargetPosition, animationSpeed * Time.deltaTime);
         //    yield return null;
         //}
+        checkGameSituation.isStarted = true;
+        for (int i = 0; i < Btns.Length; i++)
+        {
+            Btns[i].gameObject.SetActive(true);
+
+        }
         while (Vector3.Distance(cameraTargetPosition,cameraTransform.position)> 0.1f)
         {
             cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraTargetPosition, animationSpeed * Time.deltaTime);
@@ -135,12 +138,7 @@ public class StartSceneController : MonoBehaviour
 
         CameraController.Instance.initialPosition = cameraTransform.position;
         CameraController.Instance.StartGameFlag = true;
-        checkGameSituation.isStarted = true;
-        for (int i = 0; i < Btns.Length; i++)
-        {
-            Btns[i].gameObject.SetActive(true);
-         
-        }
+      
     }
     //读取DayData数据
     private void LoadDayCheckData()
@@ -182,12 +180,31 @@ public class StartSceneController : MonoBehaviour
             });
             return true;
 
+        }else if(dayCheck.ClickCheck == 2 && dayCheck.DayCount > 6)
+        {
+            dayCheck.DayCount++;
+
+            blackoutPanel.transform.SetAsLastSibling();
+
+            blackoutPanel.DOFade(1.0f, 1.0f).OnComplete(() =>
+            {
+                dayCheck.ClickCheck = 0;
+                for (int i = 0; i < dayCheck.BtnIsClick.Length; i++)
+                {
+                    dayCheck.BtnIsClick[i] = false;
+                }
+                SaveDayCheckData();
+                SceneManager.LoadScene("StartScene");
+
+            });
+            return true;
         }
         return false;
     }
     public void NextDayButton()//速通一天，检查用
     {
         dayCheck.ClickCheck = 3;
+
         SaveDayCheckData();
         checkDayEnd();
     }

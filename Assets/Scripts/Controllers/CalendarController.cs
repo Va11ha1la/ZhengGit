@@ -15,6 +15,7 @@ public class CalendarController : MonoBehaviour
     public Image blackoutPanel; 
     public GameObject hintMessage; 
     public RectTransform canvasRectTransform; // Canvas的RectTransform
+    public GameObject CalendarImg;
 
     private Vector3 initialHandPosition;
     private Vector3 targetHandPosition; // 手臂的目标位置（点击格子处）
@@ -24,11 +25,13 @@ public class CalendarController : MonoBehaviour
     private DayCheck dayCheck;
     private string jsonFilePath;
 
-    public List<Sprite> wallImages;
+    //public List<Sprite> wallImages;
     public GameObject wallImage;
 
     public GameObject transitionAnimator; // 转场用Animator 物体
     int date;
+
+    public Animator Effects;
 
     //调整抖动参数用
     [Header("抖动调参用")]
@@ -48,14 +51,26 @@ public class CalendarController : MonoBehaviour
     {
 
         transitionAnimator.gameObject.SetActive(false);
-
+        Effects.gameObject.SetActive(false);
+        
         jsonFilePath = Path.Combine(Application.persistentDataPath, "DayData.json");
         string jsonData = File.ReadAllText(jsonFilePath);
         dayCheck = JsonUtility.FromJson<DayCheck>(jsonData);
         date = dayCheck.DayCount;
         int p = dayCheck.DayCount * 3 + dayCheck.ClickCheck;
-        wallImage.GetComponent<SpriteRenderer>().sprite = wallImages[p];
+        //wallImage.GetComponent<SpriteRenderer>().sprite = wallImages[p];
+        char c = dayCheck.ClickCheck == 1 ? 'a' : dayCheck.ClickCheck == 2 ? 'b' : 'c';
+        string name = "";
+        Sprite BGImage = Resources.Load<Sprite>($"Image/Backgrounds/{name}{dayCheck.DayCount + 1}{c}");
+        wallImage.GetComponent<SpriteRenderer>().sprite = BGImage;
+        string name2 = "大日历";
+        Sprite CImage = Resources.Load<Sprite>($"Image/Calendar/{name2}{dayCheck.DayCount + 1}{c}");
+        CalendarImg.GetComponent<SpriteRenderer>().sprite = CImage;
 
+        if (date == 3)
+        {
+            Effects.gameObject.SetActive(true);
+        }
         if (date > 0)
         {
             for (int i = 1; i < dayCheck.DayCount+1; i++)
@@ -95,65 +110,65 @@ public class CalendarController : MonoBehaviour
         }
     }
 
-    //private void AnimateHandMovement(Button clickedButton)
-    //{
-
-    //    handSprite.SetActive(true); 
-
-
-    //    handSprite.transform.DOMove(targetHandPosition, MoveSpeed[date])
-
-    //        .OnComplete(() =>
-    //        {
-    //            DrawCircleOnCalendar(clickedButton); 
-    //            AnimateHandRetract(); // 手缩
-    //        });
-
-
-    //    InvokeRepeating(nameof(ShakeHand), 0, pinlu[dayCheck.DayCount]); // 每隔0.5秒抖动一次，可调
-    //}
-
-    //private void ShakeHand()
-    //{
-
-    //    handSprite.transform.DOPunchPosition(
-    //        punch: punchV[date], // 抖动的方向和强度，下面都可以调
-    //        duration: duration[date],                   // 抖动的持续时间
-    //        vibrato: vibrato[date],                       // 抖动的频率
-    //        elasticity: elasticity[date]                // 弹性效果
-    //    );
-    //}
     private void AnimateHandMovement(Button clickedButton)
     {
+
         handSprite.SetActive(true);
 
-        // 使用 DOTween 的 OnUpdate 来在移动过程中触发抖动
+
         handSprite.transform.DOMove(targetHandPosition, MoveSpeed[date])
-            .SetEase(Ease.Linear) // 线性移动
-            .OnUpdate(() =>
-            {
-                // 抖动手的位置，同时移动手
-                ShakeHand();
-            })
+
             .OnComplete(() =>
             {
                 DrawCircleOnCalendar(clickedButton);
-                AnimateHandRetract(); // 手缩回动画
+                AnimateHandRetract(); // 手缩
             });
+
+
+        InvokeRepeating(nameof(ShakeHand), 0, pinlu[dayCheck.DayCount]); // 每隔0.5秒抖动一次，可调
     }
 
     private void ShakeHand()
     {
-        // 手部抖动效果，使用 DOShakePosition 实现持续抖动
-        handSprite.transform.DOShakePosition(
-            duration: duration[date],    // 抖动的持续时间
-            strength: punchV[date],      // 抖动的强度
-            vibrato: vibrato[date],      // 抖动的频率
-            randomness: 90,              // 抖动的随机性
-            snapping: false,             // 是否吸附到整数位置
-            fadeOut: true                // 抖动结束时是否逐渐减弱
+
+        handSprite.transform.DOPunchPosition(
+            punch: punchV[date], // 抖动的方向和强度，下面都可以调
+            duration: duration[date],                   // 抖动的持续时间
+            vibrato: vibrato[date],                       // 抖动的频率
+            elasticity: elasticity[date]                // 弹性效果
         );
     }
+    //private void AnimateHandMovement(Button clickedButton)
+    //{
+    //    handSprite.SetActive(true);
+
+    //    // 使用 DOTween 的 OnUpdate 来在移动过程中触发抖动
+    //    handSprite.transform.DOMove(targetHandPosition, MoveSpeed[date])
+    //        .SetEase(Ease.Linear) // 线性移动
+    //        .OnUpdate(() =>
+    //        {
+    //            // 抖动手的位置，同时移动手
+    //            ShakeHand();
+    //        })
+    //        .OnComplete(() =>
+    //        {
+    //            DrawCircleOnCalendar(clickedButton);
+    //            AnimateHandRetract(); // 手缩回动画
+    //        });
+    //}
+
+    //private void ShakeHand()
+    //{
+    //    // 手部抖动效果，使用 DOShakePosition 实现持续抖动
+    //    handSprite.transform.DOShakePosition(
+    //        duration: duration[date],    // 抖动的持续时间
+    //        strength: punchV[date],      // 抖动的强度
+    //        vibrato: vibrato[date],      // 抖动的频率
+    //        randomness: 90,              // 抖动的随机性
+    //        snapping: false,             // 是否吸附到整数位置
+    //        fadeOut: true                // 抖动结束时是否逐渐减弱
+    //    );
+    //}
 
 
 
