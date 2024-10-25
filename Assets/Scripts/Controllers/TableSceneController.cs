@@ -55,7 +55,8 @@ public class TableSceneController : MonoBehaviour
         if (texture == null) texture = Resources.Load<Texture2D>($"Image/Table/1{c}_table");
         backgroundImage.sprite =Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
         
-        Texture2D notebook=Resources.Load<Texture2D>($"Image/Table/{c}_notebook");
+        Texture2D notebook=Resources.Load<Texture2D>($"Image/Table/{dayCheck.DayCount+1}{c}_notebook");
+        if(notebook==null)notebook=Resources.Load<Texture2D>($"Image/Table/1{c}_notebook");
         notebookButton.GetComponent<Image>().sprite = Sprite.Create(notebook, new Rect(0, 0, notebook.width, notebook.height), new Vector2(0.5f, 0.5f));
     }
 }

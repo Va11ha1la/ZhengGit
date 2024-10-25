@@ -2582,6 +2582,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6907357732130943071, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6907357732130943071, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 6907357732130943071, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 8649199043329929933, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9064197957376396537, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
       propertyPath: m_Color.a
       value: 0

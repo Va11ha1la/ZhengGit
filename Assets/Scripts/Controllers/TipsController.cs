@@ -8,7 +8,7 @@ public class TipsController : MonoBehaviour
 {
     public int index;
     [Serializable]
-    class aa
+    public class aa
     {
         public bool hasRead;
     }

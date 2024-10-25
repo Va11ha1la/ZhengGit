@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PostProcessMgr : MonoBehaviour
@@ -30,6 +31,10 @@ public class PostProcessMgr : MonoBehaviour
 				Camera.main.GetComponent<PostProcessVolume>().profile=Resources.Load<PostProcessProfile>("PostProcess_Profiles/3high");
 				break;
 			case 4:
+				if (SceneManager.GetActiveScene().buildIndex== 0)
+				{
+					break;
+				}
 				Camera.main.gameObject.AddComponent<ChromaticAberrationEffect>().material=Resources.Load<Material>("Shader/ChromaticAberration");
 				Camera.main.gameObject.GetComponent<ChromaticAberrationEffect>().material.SetFloat("_Intensity",1f);
 				temp = GameObject.Find("day4");

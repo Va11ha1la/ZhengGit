@@ -18,17 +18,18 @@ public class SoundManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             audioSource = GetComponent<AudioSource>();
             dictAudio = new Dictionary<string, AudioClip>();
+            
+            audioSource = GetComponent<AudioSource>();
+            dictAudio = new Dictionary<string, AudioClip>();
+
+            // 创建一个新的 AudioSource 用于循环播放
+            loopingAudioSource = gameObject.AddComponent<AudioSource>();
+            loopingAudioSource.loop = true; // 设置为循环播放
         }
         else
         {
             Destroy(gameObject);
         }
-        audioSource = GetComponent<AudioSource>();
-        dictAudio = new Dictionary<string, AudioClip>();
-
-        // 创建一个新的 AudioSource 用于循环播放
-        loopingAudioSource = gameObject.AddComponent<AudioSource>();
-        loopingAudioSource.loop = true; // 设置为循环播放
     }
 
     // 加载音频
@@ -72,6 +73,7 @@ public class SoundManager : MonoBehaviour
         AudioClip clip = GetAudio(name);
         if (clip != null)
         {
+            if(clip.Equals(audioSource.clip))return;
             audioSource.Stop();
             audioSource.clip = clip;
             audioSource.volume = volume;

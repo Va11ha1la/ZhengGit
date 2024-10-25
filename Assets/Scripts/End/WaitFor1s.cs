@@ -7,6 +7,7 @@ public class WaitFor1s : MonoBehaviour
 {
     private float time;
     private int count = 1;
+    public int index;
     void Update()
     {
         time += Time.deltaTime*count;
@@ -22,14 +23,7 @@ public class WaitFor1s : MonoBehaviour
     {
         GetComponent<Button>().interactable = false;
         gameObject.SetActive(false);
-        if (EndButton.aa[0])
-        {
-            EndButton.aa[1] = true;
-        }
-        else
-        {
-            EndButton.aa[0] = true;
-        }
+        EndButton.aa[index] = true;
         GetComponent<Button>().onClick.RemoveAllListeners();
     }
 }

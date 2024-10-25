@@ -23,8 +23,6 @@ public class StartSceneController : MonoBehaviour
     public Button[] Btns;
     string jsonFilePath;
     public DayCheck dayCheck=new DayCheck();
-
-    public List<Sprite> wallImages;
     public GameObject wallImage;
     int date;
 
@@ -74,7 +72,7 @@ public class StartSceneController : MonoBehaviour
                 SoundManager.instance.PlayBGM(Globals.BGM4, 0.75f);
                 SoundManager.instance.PlayLoopingSound(Globals.Breath1, 0.4f);
             }
-            if (dayCheck.DayCount >=7 && dayCheck.DayCount < 12)
+            if ((dayCheck.DayCount >= 7 && dayCheck.DayCount < 12)||dayCheck.DayCount>12)
             {
                 p = 4;
             }else if (dayCheck.DayCount >= 1 && dayCheck.DayCount < 4)
@@ -227,7 +225,7 @@ public class StartSceneController : MonoBehaviour
     private IEnumerator LoadSceneAfterAnimation()
     {
 
-        yield return new WaitForSeconds(2.9f);
+        yield return new WaitForSeconds(5f);
 
 
         SceneManager.LoadScene("StartScene");

@@ -299,46 +299,58 @@ public class FoodController : MonoBehaviour
     {
 
         yield return new WaitForSeconds(2.9f);
-     
+        Cursor.lockState = CursorLockMode.None;
         SoundManager.instance.StopLoopingSound();
         SceneManager.LoadScene("StartScene");
     }
     public void HandleCursorMove()
     {
+        TipsController.aa b;
+        string jsonStr = File.ReadAllText(Application.persistentDataPath + "/tips2.json");
+        b=JsonUtility.FromJson<TipsController.aa>(jsonStr);
         // 锁定鼠标，使它保持在屏幕中心
-        Cursor.lockState = CursorLockMode.Locked;
-
-        // 获取鼠标的移动增量
-        float deltaX = Input.GetAxis("Mouse X");
-        float deltaY = Input.GetAxis("Mouse Y");
-
-        // 根据鼠标增量调整光标位置
-        Vector3 adjustedDelta = new Vector3(deltaX, deltaY, 0) * sensitivity1[date]*10;
-
-        // 将屏幕坐标转换为Canvas的RectTransform坐标
-        Vector3 spoonPosition = spoonCursor.rectTransform.localPosition + adjustedDelta;
-
-        // 根据日期进行不同的范围约束
-        if (date != 5)
+        if (b.hasRead)
         {
-            float clampedX = Mathf.Clamp(spoonPosition.x, -canvas.pixelRect.width * 0.25f, canvas.pixelRect.width / 2);
-            float clampedY = Mathf.Clamp(spoonPosition.y, -canvas.pixelRect.height / 2f, canvas.pixelRect.height * 0.25f);
+            Cursor.lockState = CursorLockMode.Locked;
 
-            spoonCursor.rectTransform.localPosition = new Vector3(clampedX, clampedY, spoonCursor.rectTransform.localPosition.z);
-        }
-        else
-        {
-            float clampedX = Mathf.Clamp(spoonPosition.x, -canvas.pixelRect.width * 0.25f, canvas.pixelRect.width / 2);
-            float clampedY = Mathf.Clamp(spoonPosition.y, -canvas.pixelRect.height / 1f, canvas.pixelRect.height * 0.25f);
+            // 获取鼠标的移动增量
+            float deltaX = Input.GetAxis("Mouse X");
+            float deltaY = Input.GetAxis("Mouse Y");
 
-            spoonCursor.rectTransform.localPosition = new Vector3(clampedX, clampedY, spoonCursor.rectTransform.localPosition.z);
-        }
+            // 根据鼠标增量调整光标位置
+            Vector3 adjustedDelta = new Vector3(deltaX, deltaY, 0) * sensitivity1[date] * 10;
 
-        // 如果光标在食物区域且未开始抖动，则启动抖动环节
-        if (isInFoodZone && !isShaking)
-        {
-            shakeDirection = Random.Range(0, 2) == 0 ? "left" : "right";
-            StartShaking();
+            // 将屏幕坐标转换为Canvas的RectTransform坐标
+            Vector3 spoonPosition = spoonCursor.rectTransform.localPosition + adjustedDelta;
+
+            // 根据日期进行不同的范围约束
+            if (date != 5)
+            {
+                float clampedX = Mathf.Clamp(spoonPosition.x, -canvas.pixelRect.width * 0.25f,
+                    canvas.pixelRect.width / 2);
+                float clampedY = Mathf.Clamp(spoonPosition.y, -canvas.pixelRect.height / 2f,
+                    canvas.pixelRect.height * 0.25f);
+
+                spoonCursor.rectTransform.localPosition =
+                    new Vector3(clampedX, clampedY, spoonCursor.rectTransform.localPosition.z);
+            }
+            else
+            {
+                float clampedX = Mathf.Clamp(spoonPosition.x, -canvas.pixelRect.width * 0.25f,
+                    canvas.pixelRect.width / 2);
+                float clampedY = Mathf.Clamp(spoonPosition.y, -canvas.pixelRect.height / 1f,
+                    canvas.pixelRect.height * 0.25f);
+
+                spoonCursor.rectTransform.localPosition =
+                    new Vector3(clampedX, clampedY, spoonCursor.rectTransform.localPosition.z);
+            }
+
+            // 如果光标在食物区域且未开始抖动，则启动抖动环节
+            if (isInFoodZone && !isShaking)
+            {
+                shakeDirection = Random.Range(0, 2) == 0 ? "left" : "right";
+                StartShaking();
+            }
         }
     }
 

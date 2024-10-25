@@ -64,7 +64,7 @@ public class CalendarController : MonoBehaviour
         string name = "";
         int p = dayCheck.DayCount;
         //¸üÐÂÍ¼Æ¬
-        if (dayCheck.DayCount >= 7 && dayCheck.DayCount < 13)
+        if ((dayCheck.DayCount >= 7 && dayCheck.DayCount < 12)|| dayCheck.DayCount > 12)
         {
             p = 4;
         }
@@ -74,7 +74,7 @@ public class CalendarController : MonoBehaviour
         Sprite CImage = Resources.Load<Sprite>($"Image/Calendar/{name2}{p + 1}{c}");
         CalendarImg.GetComponent<SpriteRenderer>().sprite = CImage;
         string name3 = "_handwithpen";
-        Sprite HSprite = Resources.Load<Sprite>($"Image/Table/{c}{name3}");
+        Sprite HSprite = Resources.Load<Sprite>($"Image/Table/{dayCheck.DayCount+1}{c}{name3}")??Resources.Load<Sprite>($"Image/Table/1{c}{name3}");
         handSprite.GetComponent<SpriteRenderer>().sprite = HSprite;
 
         if (date == 3)

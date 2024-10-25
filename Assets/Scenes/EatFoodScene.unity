@@ -588,7 +588,7 @@ GameObject:
   - component: {fileID: 328383141}
   - component: {fileID: 328383140}
   - component: {fileID: 328383139}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -1217,7 +1217,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3755817400468358674, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1137.2213
+      value: 499.5892
       objectReference: {fileID: 0}
     - target: {fileID: 3755817400468358674, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1225,7 +1225,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3755817400468358674, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 391.39447
+      value: 710.2105
       objectReference: {fileID: 0}
     - target: {fileID: 3755817400468358674, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1310,6 +1310,18 @@ PrefabInstance:
     - target: {fileID: 5630945416178105418, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6907357732130943071, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6907357732130943071, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 6907357732130943071, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
       objectReference: {fileID: 0}
     - target: {fileID: 8649199043329929933, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
       propertyPath: m_Sprite
