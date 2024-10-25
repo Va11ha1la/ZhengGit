@@ -3286,16 +3286,20 @@ PrefabInstance:
       value: Tips
       objectReference: {fileID: 0}
     - target: {fileID: 3755817400468358674, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 540.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 3755817400468358674, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 103.7
+      value: 217.0366
       objectReference: {fileID: 0}
     - target: {fileID: 3755817400468358674, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 721
+      value: 689.78
       objectReference: {fileID: 0}
     - target: {fileID: 3755817400468358674, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -27
+      value: -22.959106
       objectReference: {fileID: 0}
     - target: {fileID: 5630945416178105418, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
       propertyPath: m_Pivot.x

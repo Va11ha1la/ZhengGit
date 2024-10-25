@@ -2482,6 +2482,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tips
       objectReference: {fileID: 0}
+    - target: {fileID: 3755817400468358674, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 588.3909
+      objectReference: {fileID: 0}
+    - target: {fileID: 3755817400468358674, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 166.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 3755817400468358674, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -174.238
+      objectReference: {fileID: 0}
+    - target: {fileID: 3755817400468358674, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -456.69
+      objectReference: {fileID: 0}
     - target: {fileID: 5630945416178105418, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
       propertyPath: m_Pivot.x
       value: 0

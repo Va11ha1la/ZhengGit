@@ -81,6 +81,9 @@ public class PostProcessMgr : MonoBehaviour
 			case 12:
 				Camera.main.GetComponent<PostProcessVolume>().profile=Resources.Load<PostProcessProfile>("PostProcess_Profiles/5low");
 				break;
+			default:
+				Camera.main.GetComponent<PostProcessVolume>().profile = null;
+				break;
 		}
 	}
 	private void LoadDayCheckData()
