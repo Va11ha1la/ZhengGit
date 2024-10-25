@@ -10,21 +10,20 @@ public class EndNoteBook : MonoBehaviour
 {
     private void Start()
     {
-        Texture2D tex=new Texture2D(1,1);
-        for (int i = 0; i < 18; i++)
+        for (int i = 1; i <= 18; i++)
         {
-            if (File.Exists(Application.persistentDataPath + $"/WritingBackup/writing{i + 1}.png"))
+            if (File.Exists(Application.persistentDataPath + $"/WritingBackup/writing{i}.png"))
             {
-                byte[] b= File.ReadAllBytes(Application.persistentDataPath + $"/WritingBackup/writing{i + 1}.png");
+                byte[] b= File.ReadAllBytes(Application.persistentDataPath + $"/WritingBackup/writing{i}.png");
+                Texture2D tex=new Texture2D(1,1);
                 tex.LoadImage(b);
-                Debug.Log(tex);
-                transform.GetChild(i).GetComponent<Image>().sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-                transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = $"9月{i + 1}日";
+                transform.GetChild(i-1).GetComponent<Image>().sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+                transform.GetChild(i-1).GetChild(0).GetComponent<TextMeshProUGUI>().text = $"9月{i}日";
             }
             else
             {
-                transform.GetChild(i).GetComponent<Image>().color=Color.clear;
-                transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = " ";
+                transform.GetChild(i-1).GetComponent<Image>().color=Color.clear;
+                transform.GetChild(i-1).GetChild(0).GetComponent<TextMeshProUGUI>().text = " ";
             }
         }
     }

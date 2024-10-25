@@ -2474,6 +2474,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 424819398786317973, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
+      propertyPath: index
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2800470090350324957, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
       propertyPath: m_Name
       value: Tips
