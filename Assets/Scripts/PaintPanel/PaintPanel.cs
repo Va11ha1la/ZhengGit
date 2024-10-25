@@ -110,8 +110,6 @@ public class PaintPanel : MonoBehaviour
         // 确保像素位置在范围内
         if (pixelX >= 0 && pixelX < texture.width && pixelY >= 0 && pixelY < texture.height)
         {
-            // 获取要替换的颜色
-            Color[] overlayPixels = brush.GetPixels();
             // 在指定位置替换像素
             for (int x = 0; x < brushWidth; x++)
             {
@@ -122,7 +120,7 @@ public class PaintPanel : MonoBehaviour
 
                     if (targetX >= 0 && targetX < texture.width && targetY >= 0 && targetY < texture.height)
                     {
-                        texture.SetPixel(targetX, targetY, overlayPixels[x + y * brushWidth]);
+                        texture.SetPixel(targetX, targetY, Color.black);
                     }
                 }
             }

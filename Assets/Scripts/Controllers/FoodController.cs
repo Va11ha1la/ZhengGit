@@ -273,15 +273,9 @@ public class FoodController : MonoBehaviour
     }
     private void BlackoutTransition()
     {
-        //transitionAnimator.SetActive(true);
-        //for (int i = 0; i < TransObjectToBeClosed.Length; i++)
-        //{
-        //    TransObjectToBeClosed[i].gameObject.SetActive(false);
-        //}
 
-        transitionAnimator.GetComponent<Animator>().SetTrigger("StartTrans");
-
-        StartCoroutine(LoadSceneAfterAnimation());
+        LoadSceneAfterAnimation();
+  
     }
     private IEnumerator LoadSceneAfterAnimation()
     {
