@@ -21,6 +21,7 @@ public class CalendarController : MonoBehaviour
     private Vector3 targetHandPosition; // 手臂的目标位置（点击格子处）
 
     public GameObject[] DateSlots;
+    public GameObject Grid;
 
     private DayCheck dayCheck;
     private string jsonFilePath;
@@ -57,14 +58,20 @@ public class CalendarController : MonoBehaviour
         string jsonData = File.ReadAllText(jsonFilePath);
         dayCheck = JsonUtility.FromJson<DayCheck>(jsonData);
         date = dayCheck.DayCount;
-        int p = dayCheck.DayCount * 3 + dayCheck.ClickCheck;
+        //int p = dayCheck.DayCount * 3 + dayCheck.ClickCheck;
         //wallImage.GetComponent<SpriteRenderer>().sprite = wallImages[p];
         char c = dayCheck.ClickCheck == 1 ? 'a' : dayCheck.ClickCheck == 2 ? 'b' : 'c';
         string name = "";
-        Sprite BGImage = Resources.Load<Sprite>($"Image/Backgrounds/{name}{dayCheck.DayCount + 1}{c}");
+        int p = dayCheck.DayCount;
+        //更新图片
+        if (dayCheck.DayCount >= 7 && dayCheck.DayCount < 13)
+        {
+            p = 4;
+        }
+        Sprite BGImage = Resources.Load<Sprite>($"Image/Backgrounds/{name}{p + 1}{c}");
         wallImage.GetComponent<SpriteRenderer>().sprite = BGImage;
         string name2 = "大日历";
-        Sprite CImage = Resources.Load<Sprite>($"Image/Calendar/{name2}{dayCheck.DayCount + 1}{c}");
+        Sprite CImage = Resources.Load<Sprite>($"Image/Calendar/{name2}{p + 1}{c}");
         CalendarImg.GetComponent<SpriteRenderer>().sprite = CImage;
 
         if (date == 3)
@@ -77,6 +84,10 @@ public class CalendarController : MonoBehaviour
             {
                 DateSlots[i].GetComponent<Image>().sprite = circleSprite[i-1];
             }
+        }
+        if(date == 6||(dayCheck.DayCount >= 7 && dayCheck.DayCount < 13))
+        {
+            Grid.transform.position = new Vector3(Grid.transform.position.x + 2.8f, Grid.transform.position.y - 70, 0);
         }
         handSprite.SetActive(false);
         //blackoutPanel.transform.SetSiblingIndex(0);

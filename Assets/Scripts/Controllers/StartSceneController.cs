@@ -43,28 +43,34 @@ public class StartSceneController : MonoBehaviour
         blackoutPanel.gameObject.SetActive(true);
         blackoutPanel.transform.SetSiblingIndex(0);
         blackoutPanel.color = new Color(255, 255, 255, 0);
-       
+        NextDayBtn.gameObject.SetActive(false);
         Cursor.visible = true;
        
         if (checkGameSituation.isStarted)
         {
             StartPhoto.gameObject.SetActive(false);
-            NextDayBtn.gameObject.SetActive(false);
+           
             jsonFilePath = Path.Combine(Application.persistentDataPath, "DayData.json");
             LoadDayCheckData();
             date = dayCheck.DayCount;
 
             char c = dayCheck.ClickCheck == 0 ? 'a' : dayCheck.ClickCheck == 1 ? 'b' : 'c';
-          
+            int p = dayCheck.DayCount;
             //¸üÐÂÍ¼Æ¬
-
-            Sprite BGImage = Resources.Load<Sprite>($"Image/Backgrounds/{dayCheck.DayCount+1}{c}");
+            if (dayCheck.DayCount >=7 && dayCheck.DayCount < 12)
+            {
+                p = 4;
+            }else if (dayCheck.DayCount >= 1 && dayCheck.DayCount < 4)
+            {
+                p = 0;
+            }
+                Sprite BGImage = Resources.Load<Sprite>($"Image/Backgrounds/{p + 1}{c}");
             wallImage.GetComponent<SpriteRenderer>().sprite = BGImage;
-            Sprite texture1 = Resources.Load<Sprite>($"Image/Btns/{dayCheck.DayCount+1}{c}_ri");
+            Sprite texture1 = Resources.Load<Sprite>($"Image/Btns/{p + 1}{c}_ri");
             Btns[0].GetComponent<Image>().sprite=texture1;
-            Sprite texture2 = Resources.Load<Sprite>($"Image/Btns/{dayCheck.DayCount + 1}{c}_eat");
+            Sprite texture2 = Resources.Load<Sprite>($"Image/Btns/{p + 1}{c}_eat");
             Btns[1].GetComponent<Image>().sprite=texture2;
-            Sprite texture3 = Resources.Load<Sprite>($"Image/Btns/{dayCheck.DayCount + 1}{c}_white");
+            Sprite texture3 = Resources.Load<Sprite>($"Image/Btns/{p + 1}{c}_white");
             Btns[2].GetComponent<Image>().sprite=texture3;
 
            

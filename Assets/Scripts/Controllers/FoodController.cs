@@ -92,9 +92,16 @@ public class FoodController : MonoBehaviour
         string jsonData = File.ReadAllText(jsonFilePath);
         dayCheck = JsonUtility.FromJson<DayCheck>(jsonData);
         date = dayCheck.DayCount;
+
+        int p = dayCheck.DayCount;
+        //∏¸–¬Õº∆¨
+        if (dayCheck.DayCount >= 7 && dayCheck.DayCount < 13)
+        {
+            p = 4;
+        }
         char c = dayCheck.ClickCheck == 1 ? 'a' : dayCheck.ClickCheck == 2 ? 'b' : 'c';
         string name = "EatTable";
-        Sprite BGImage = Resources.Load<Sprite>($"Image/Backgrounds/{name}{dayCheck.DayCount + 1}{c}");
+        Sprite BGImage = Resources.Load<Sprite>($"Image/Backgrounds/{name}{p + 1}{c}");
 
         EatTablemage.GetComponent<SpriteRenderer>().sprite = BGImage;
         canTransition = false;
@@ -198,7 +205,7 @@ public class FoodController : MonoBehaviour
                          
                             DOVirtual.DelayedCall(3f, () =>
                             {
-                                TipText.text = "...∏–æıº¢≥¶Í§Í§";
+                                TipText.text = "..∫Ù....";
                                 TipText.DOFade(0f, 1f)
                                     .OnComplete(() =>
                                     {
@@ -216,6 +223,7 @@ public class FoodController : MonoBehaviour
                 {
                     // ¬˙∏π÷µ >= 2  ±÷ÿ÷√ HungryDay
                     checkHungry.HungryDay = 0;
+                    BlackoutTransition();
                 }
             }
 
