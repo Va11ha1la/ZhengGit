@@ -42,7 +42,7 @@ public class TipsController : MonoBehaviour
 
     public void CloseTips()
     {
-        SoundManager.instance.PlaySound(Globals.Button1,0.8f);
+        SoundManager.instance?.PlaySound(Globals.Button1,0.8f);
         aa a = new aa();
         a.hasRead = true;
         string jsonStr = JsonUtility.ToJson(a);

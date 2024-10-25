@@ -2482,6 +2482,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tips
       objectReference: {fileID: 0}
+    - target: {fileID: 2800470090350324957, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3755817400468358674, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
       propertyPath: m_SizeDelta.x
       value: 588.3909
@@ -2576,6 +2580,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5630945416178105418, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9064197957376396537, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
+      propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
