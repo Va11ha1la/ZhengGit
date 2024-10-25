@@ -209,24 +209,12 @@ public class CalendarController : MonoBehaviour
 
     private void BlackoutTransition()
     {
-        transitionAnimator.SetActive(true);
         for(int i = 0; i < DateSlots.Length; i++)
         {
             DateSlots[i].gameObject.SetActive(false);
         }
-        
-        transitionAnimator.GetComponent<Animator>().SetTrigger("StartTrans");
-
-        StartCoroutine(LoadSceneAfterAnimation());
-    }
-    //等待动画播放完成后加载新场景
-    private IEnumerator LoadSceneAfterAnimation()
-    {
-        
-        yield return new WaitForSeconds(2.9f);
-
-       
         SceneManager.LoadScene("StartScene");
+        
     }
     private bool CanClickDate(Button clickedButton)
     {

@@ -168,7 +168,8 @@ public class StartSceneController : MonoBehaviour
             sw.Write(jsonData);
         }
     }
-    
+
+    public GameObject transitionAnimator;
     public bool checkDayEnd()
     {
         LoadDayCheckData();
@@ -186,8 +187,9 @@ public class StartSceneController : MonoBehaviour
                     dayCheck.BtnIsClick[i] = false;
                 }
                 SaveDayCheckData();
-                SceneManager.LoadScene("StartScene");
-               
+                transitionAnimator.SetActive(true);
+                transitionAnimator.GetComponent<Animator>().SetTrigger("StartTrans");
+                StartCoroutine(LoadSceneAfterAnimation());
             });
             return true;
 
@@ -211,6 +213,14 @@ public class StartSceneController : MonoBehaviour
             return true;
         }
         return false;
+    }
+    private IEnumerator LoadSceneAfterAnimation()
+    {
+
+        yield return new WaitForSeconds(2.9f);
+
+
+        SceneManager.LoadScene("StartScene");
     }
     public void NextDayButton()//速通一天，检查用
     {
