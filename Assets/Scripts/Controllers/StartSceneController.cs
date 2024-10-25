@@ -39,7 +39,10 @@ public class StartSceneController : MonoBehaviour
     }
     void Start()
     {
-       
+        if (!checkGameSituation.isStarted)
+        {
+            SoundManager.instance.PlayBGM(Globals.BGM1Long,0.8f);
+        }
         blackoutPanel.gameObject.SetActive(true);
         blackoutPanel.transform.SetSiblingIndex(0);
         blackoutPanel.color = new Color(255, 255, 255, 0);
@@ -49,7 +52,8 @@ public class StartSceneController : MonoBehaviour
         if (checkGameSituation.isStarted)
         {
             StartPhoto.gameObject.SetActive(false);
-           
+            if(date>0&& date<=5)
+                SoundManager.instance.PlayBGM(Globals.BGM2, 0.8f);
             jsonFilePath = Path.Combine(Application.persistentDataPath, "DayData.json");
             LoadDayCheckData();
             date = dayCheck.DayCount;

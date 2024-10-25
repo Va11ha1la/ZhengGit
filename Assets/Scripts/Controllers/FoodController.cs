@@ -13,14 +13,19 @@ public class FoodController : MonoBehaviour
     
     public Image spoonCursor;
     public Image spoonCursorDay6;
+    public Image spoonCursorDay7;
     public Sprite Day6Cursor;
+    public Sprite Day7Cursor;
     public Sprite[] spoonCondition; //É××Ó×´Ì¬
     public Sprite[] Day6spoonCondition; //É××Ó×´Ì¬
+    public Sprite[] Day7spoonCondition; //É××Ó×´Ì¬
     public SpriteRenderer Bowl;
     public Sprite[] FoodCondition;//ÅÌ×Ó×´Ì¬
     public Sprite[] Day6FoodCondition;
+    public Sprite[] Day7FoodCondition;
     public Transform foodZone;
     public Transform foodZoneDay6;
+    public Transform foodZoneDay7;
     public Transform EatZone;
 
     [Header("¼¢¶öÅÐ¶Ï")]
@@ -86,13 +91,30 @@ public class FoodController : MonoBehaviour
     public Vector3[] Drops3;//´æ´¢Èý¸ö¶ªÆúÎïµÄÎ»ÖÃ
     private void Start()
     {
-        Effects.gameObject.SetActive(false);
+       
+            Effects.gameObject.SetActive(false);
         TipText.gameObject.SetActive(false);
         jsonFilePath = Path.Combine(Application.persistentDataPath, "DayData.json");
         string jsonData = File.ReadAllText(jsonFilePath);
         dayCheck = JsonUtility.FromJson<DayCheck>(jsonData);
         date = dayCheck.DayCount;
-
+        if (date >= 0 && date <= 3)
+        {
+            Debug.Log(1);
+            SoundManager.instance.PlayBGM(Globals.BGM2, 0.8f);
+        }
+        else if (date > 3 && date <= 5)
+        {
+            
+            SoundManager.instance.PlayBGM(Globals.BGM4, 0.75f);
+            SoundManager.instance.PlayLoopingSound(Globals.Breath1, 0.4f);
+        }
+        else
+        {
+            
+            SoundManager.instance.PlayBGM(Globals.BGM4, 0.70f);
+            SoundManager.instance.PlayLoopingSound(Globals.Breath2, 0.9f);
+        }
         int p = dayCheck.DayCount;
         //¸üÐÂÍ¼Æ¬
         if (dayCheck.DayCount >= 7 && dayCheck.DayCount < 13)
@@ -117,15 +139,27 @@ public class FoodController : MonoBehaviour
         {
             spoonCursor.sprite = Day6spoonCondition[0];
         }
-        if (date == 3)
+        else if (date == 6)
+        {
+            spoonCursor.sprite = Day7spoonCondition[0];
+        }
+        else if (date == 3)
         {
             Effects.gameObject.SetActive(true);
+        }
+        else if (date == 6)
+        {
+            spoonCursor.sprite = Day7spoonCondition[0];
         }
         previousMousePosition = Input.mousePosition; // ³õÊ¼»¯Êó±êÎ»ÖÃ
         isHoldFoodFlag = false;
         sensitivity = sensitivity1[date] + 0.5f;
         for (int i = 0; i < Drops.Length; i++)
         {
+            if(date == 6)
+            {
+                Drops[i].GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>($"Image/Eat/·¹×À7/{i}");
+            }
             switch (i)
             {
                 case 0:
@@ -149,9 +183,16 @@ public class FoodController : MonoBehaviour
             spoonCursor = spoonCursorDay6;
             spoonCursor.sprite = Day6Cursor;
             Bowl.sprite = Day6FoodCondition[2];
-            
-            
-            
+   
+        }
+        else if(date == 6)
+        {
+            spoonCursorDay7.gameObject.SetActive(true);
+            spoonCursor.color = new Color(255, 255, 255, 0);
+            spoonCursor = spoonCursorDay7;
+            spoonCursor.sprite = Day7Cursor;
+            Bowl.sprite = Day7FoodCondition[2];
+
         }
     }
 
@@ -287,7 +328,7 @@ public class FoodController : MonoBehaviour
     }
     private void CheckFoodZone()
     {
-        if (date == 5)
+        if (date == 5||date == 6)
         {
             RectTransform foodZoneRect = spoonCursor.GetComponent<RectTransform>();
             foodZoneRect.pivot = new Vector2(0, 0.5f);
@@ -302,6 +343,9 @@ public class FoodController : MonoBehaviour
                     if (date == 5)
                     {
                         spoonCursor.sprite = Day6spoonCondition[spoonValue];
+                    }else if(date == 6)
+                    {
+                        spoonCursor.sprite = Day7spoonCondition[spoonValue];
                     }
                     isHoldFoodFlag = true;
 
@@ -317,6 +361,7 @@ public class FoodController : MonoBehaviour
             {
                 if (!isInFoodZone)
                 {
+                    SoundManager.instance.PlaySound(Globals.CloseBook, 0.25f,false);
                     isInFoodZone = true;
                     isInEatZone = false;
                     spoonValue = 2;
@@ -324,6 +369,10 @@ public class FoodController : MonoBehaviour
                     if (date == 5)
                     {
                         spoonCursor.sprite = Day6spoonCondition[spoonValue];
+                    }
+                    else if (date == 6)
+                    {
+                        spoonCursor.sprite = Day7spoonCondition[spoonValue];
                     }
                     isHoldFoodFlag = true;
 
@@ -350,6 +399,11 @@ public class FoodController : MonoBehaviour
                 {
                     spoonCursor.sprite = Day6spoonCondition[spoonValue];
                 }
+                else if (date == 6)
+                {
+                    spoonCursor.sprite = Day7spoonCondition[spoonValue];
+                }
+
             }
         }
 
@@ -360,6 +414,10 @@ public class FoodController : MonoBehaviour
         if (date == 5)
         {
             Bowl.sprite = Day6FoodCondition[spoonValue];
+        }
+        else if (date == 6)
+        {
+            Bowl.sprite = Day7FoodCondition[spoonValue];
         }
         currentEat++;
     }
@@ -459,6 +517,10 @@ public class FoodController : MonoBehaviour
             {
                 spoonCursor.sprite = Day6spoonCondition[spoonValue];
             }
+            else if (date == 6)
+            {
+                spoonCursor.sprite = Day7spoonCondition[spoonValue];
+            }
             shakeCount++;
             if (shakeCount >= 2)
             {
@@ -476,6 +538,14 @@ public class FoodController : MonoBehaviour
     {
         fullnessValue += spoonValue;
         fullnessSlide.value = fullnessValue;
+        if (Random.Range(0, 2) == 0)
+        {
+            SoundManager.instance.PlaySound(Globals.Eating1, 1f,false);
+        }
+        else
+        {
+            SoundManager.instance.PlaySound(Globals.Eating2, 1f,false);
+        }
         ResetMealState();
         ShakeCamera();
    
@@ -490,6 +560,10 @@ public class FoodController : MonoBehaviour
         if (date == 5)
         {
             spoonCursor.sprite = Day6spoonCondition[spoonValue];
+        }
+        else if (date == 6)
+        {
+            spoonCursor.sprite = Day7spoonCondition[spoonValue];
         }
         shakeCount = 0;
         hasPressedCorrectKey = false;

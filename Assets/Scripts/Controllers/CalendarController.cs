@@ -73,6 +73,9 @@ public class CalendarController : MonoBehaviour
         string name2 = "¥Û»’¿˙";
         Sprite CImage = Resources.Load<Sprite>($"Image/Calendar/{name2}{p + 1}{c}");
         CalendarImg.GetComponent<SpriteRenderer>().sprite = CImage;
+        string name3 = "_handwithpen";
+        Sprite HSprite = Resources.Load<Sprite>($"Image/Table/{c}{name3}");
+        handSprite.GetComponent<SpriteRenderer>().sprite = HSprite;
 
         if (date == 3)
         {

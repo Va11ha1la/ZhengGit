@@ -1,4 +1,4 @@
-using System;
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +17,15 @@ public class FrameController : MonoBehaviour
 
     public void OnFrameClicked()
     {
+        
+        if(Random.Range(0, 2) == 0)
+        {
+            SoundManager.instance.PlayBGM(Globals.Button1, 0.8f);
+        }
+        else
+        {
+            SoundManager.instance.PlayBGM(Globals.Button2, 0.8f);
+        }
         jsonFilePath = Path.Combine(Application.persistentDataPath, "DayData.json");
         LoadDayCheckData(); // 加载数据
         if (dayCheck.ClickCheck < 3) // 每天最多点击3次

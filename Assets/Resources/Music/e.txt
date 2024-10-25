@@ -1,0 +1,1 @@
+Loop之间可以衔接，第一个3Loop可跟在3Full后面，1MusicBox可以首尾衔接。
