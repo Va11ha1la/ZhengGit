@@ -23,7 +23,7 @@ public class HandFollow : MonoBehaviour
 
     private void Update()
     {
-        rectTransform.position=new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+        rectTransform.localPosition=new Vector3(Input.mousePosition.x-Screen.width/2f, Input.mousePosition.y-Screen.height/2f, 0);
     }
 
     public void OnOpenTheNotebook()
