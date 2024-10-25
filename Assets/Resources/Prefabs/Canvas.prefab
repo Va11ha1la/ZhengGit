@@ -428,8 +428,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2594438723487675400}
         m_TargetAssemblyTypeName: UIButtonEvents, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 5
+        m_MethodName: Quit
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1556,7 +1556,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u8FD4\u56DE\u4E3B\u9875\u9762"
+  m_text: "\u9000\u51FA\u6E38\u620F"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bd9fc59fd706f0a45b932a48271e010e, type: 2}
   m_sharedMaterial: {fileID: -7773441799826974665, guid: bd9fc59fd706f0a45b932a48271e010e, type: 2}
@@ -1776,7 +1776,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2016692282415725806
 RectTransform:
   m_ObjectHideFlags: 0

@@ -80,6 +80,7 @@ public class StartSceneController : MonoBehaviour
            
             if(dayCheck.ClickCheck==3||(dayCheck.ClickCheck==2 && dayCheck.DayCount > 6))
             {
+                if(dayCheck.DayCount==17)SceneManager.LoadScene("End");
                 NextDayBtn.gameObject.SetActive(true);
             }
             canCheck = true;
