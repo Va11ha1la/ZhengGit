@@ -69,6 +69,7 @@ public class FoodController : MonoBehaviour
     private string jsonFilePath;
     int date;
     public Animator Effects;
+    public Tips tip;
 
     [Header("抖动该变量")]
     public float[] randomLeft;
@@ -89,6 +90,14 @@ public class FoodController : MonoBehaviour
     public Vector3[] Drops1;//存储三个丢弃物的位置
     public Vector3[] Drops2;//存储三个丢弃物的位置
     public Vector3[] Drops3;//存储三个丢弃物的位置
+
+    [Header("按键")]
+    public Image aKeyImage;
+    public Image dKeyImage;
+    public Sprite aKeyHighlight;
+    public Sprite dKeyHighlight;
+    public Sprite aKeyNormal;
+    public Sprite dKeyNormal;
     private void Start()
     {
        
@@ -100,7 +109,6 @@ public class FoodController : MonoBehaviour
         date = dayCheck.DayCount;
         if (date >= 0 && date <= 3)
         {
-            Debug.Log(1);
             SoundManager.instance.PlayBGM(Globals.BGM2, 0.8f);
         }
         else if (date > 3 && date <= 5)
@@ -198,6 +206,14 @@ public class FoodController : MonoBehaviour
 
     private void Update()
     {
+        if (tip.hasShowed)
+        {
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.visible = true;
+        }
         if (currentEat < maxEat)
         {
             HandleCursorMove();
@@ -262,42 +278,47 @@ public class FoodController : MonoBehaviour
                 }
                 else
                 {
+                    Debug.Log(1);
                     // 满腹值 >= 2 时重置 HungryDay
                     checkHungry.HungryDay = 0;
                     BlackoutTransition();
                 }
             }
+         
 
             //});
         }
     }
     private void BlackoutTransition()
     {
-
-        LoadSceneAfterAnimation();
+        
+       StartCoroutine(LoadSceneAfterAnimation());
   
     }
     private IEnumerator LoadSceneAfterAnimation()
     {
 
         yield return new WaitForSeconds(2.9f);
-
+     
         SoundManager.instance.StopLoopingSound();
         SceneManager.LoadScene("StartScene");
     }
     public void HandleCursorMove()
     {
-        
-        // 获取当前鼠标位置（屏幕坐标）
-        Vector3 currentMousePosition = Input.mousePosition;
-        Vector3 delta = currentMousePosition - previousMousePosition;
-        previousMousePosition = currentMousePosition;
-        
-        Vector3 adjustedDelta = delta * sensitivity;
+        // 锁定鼠标，使它保持在屏幕中心
+        Cursor.lockState = CursorLockMode.Locked;
+
+        // 获取鼠标的移动增量
+        float deltaX = Input.GetAxis("Mouse X");
+        float deltaY = Input.GetAxis("Mouse Y");
+
+        // 根据鼠标增量调整光标位置
+        Vector3 adjustedDelta = new Vector3(deltaX, deltaY, 0) * sensitivity1[date]*10;
 
         // 将屏幕坐标转换为Canvas的RectTransform坐标
         Vector3 spoonPosition = spoonCursor.rectTransform.localPosition + adjustedDelta;
 
+        // 根据日期进行不同的范围约束
         if (date != 5)
         {
             float clampedX = Mathf.Clamp(spoonPosition.x, -canvas.pixelRect.width * 0.25f, canvas.pixelRect.width / 2);
@@ -308,18 +329,19 @@ public class FoodController : MonoBehaviour
         else
         {
             float clampedX = Mathf.Clamp(spoonPosition.x, -canvas.pixelRect.width * 0.25f, canvas.pixelRect.width / 2);
-            float clampedY = Mathf.Clamp(spoonPosition.y, -canvas.pixelRect.height / 1f, canvas.pixelRect.height  *0.25f);
+            float clampedY = Mathf.Clamp(spoonPosition.y, -canvas.pixelRect.height / 1f, canvas.pixelRect.height * 0.25f);
 
             spoonCursor.rectTransform.localPosition = new Vector3(clampedX, clampedY, spoonCursor.rectTransform.localPosition.z);
         }
-        
-     
+
+        // 如果光标在食物区域且未开始抖动，则启动抖动环节
         if (isInFoodZone && !isShaking)
         {
             shakeDirection = Random.Range(0, 2) == 0 ? "left" : "right";
             StartShaking();
         }
     }
+
     private void CheckFoodZone()
     {
         if (date == 5||date == 6)
@@ -457,6 +479,18 @@ public class FoodController : MonoBehaviour
             // 随机决定抖动方向
             shakeDirection = Random.Range(0, 2) == 0 ? "left" : "right";
 
+            // 显示 A 或 D 按键提示图片
+            if (shakeDirection == "left")
+            {
+                aKeyImage.gameObject.SetActive(true);
+                dKeyImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                aKeyImage.gameObject.SetActive(false);
+                dKeyImage.gameObject.SetActive(true);
+            }
+
             // 轻微抖动（提前提示）
             spoonCursor.transform.DOPunchPosition(new Vector3(shakeDirection == "left" ? -50f : 50f, 0, 0), duration[date], vibrato[date], elasticity[date]).OnComplete(() =>
             {
@@ -480,12 +514,36 @@ public class FoodController : MonoBehaviour
         while (Time.time < startTime + shakeReactionTime[date])
         {
             // 检测按键，且需要判断是否在冷却时间内
-            if ((shakeDirection == "left" && Input.GetKeyDown(KeyCode.LeftArrow) && Time.time >= lastPressTime + cooldownTime) ||
-                (shakeDirection == "right" && Input.GetKeyDown(KeyCode.RightArrow) && Time.time >= lastPressTime + cooldownTime))
+            if ((shakeDirection == "left" && Input.GetKeyDown(KeyCode.A) && Time.time >= lastPressTime + cooldownTime) ||
+                (shakeDirection == "right" && Input.GetKeyDown(KeyCode.D) && Time.time >= lastPressTime + cooldownTime))
             {
                 hasPressedCorrectKey = true;
-                lastPressTime = Time.time; 
-               
+                lastPressTime = Time.time;
+
+                // 高亮相应的图片
+                if (shakeDirection == "left")
+                {
+                    aKeyImage.sprite = aKeyHighlight;
+                    aKeyImage.transform.DOScale(1.2f, 0.2f)  // 放大到 1.2 倍
+        .SetEase(Ease.OutBack)  // 让效果更有弹性
+        .OnComplete(() =>
+        {
+            // 缩放回到原始大小
+            aKeyImage.transform.DOScale(1f, 0.2f).SetEase(Ease.InBack);
+        });
+                }
+                else
+                {
+                    dKeyImage.sprite = dKeyHighlight;
+                    dKeyImage.transform.DOScale(1.2f, 0.2f)  // 放大到 1.2 倍
+       .SetEase(Ease.OutBack)  // 让效果更有弹性
+       .OnComplete(() =>
+       {
+           // 缩放回到原始大小
+           dKeyImage.transform.DOScale(1f, 0.2f).SetEase(Ease.InBack);
+       });
+                }
+
                 yield break; 
             }
 
@@ -496,6 +554,9 @@ public class FoodController : MonoBehaviour
         {
             FailedGrab();
         }
+        // 重置图片状态
+        aKeyImage.sprite = aKeyNormal;
+        dKeyImage.sprite = dKeyNormal;
     }
 
     private void FailedGrab()
@@ -503,7 +564,9 @@ public class FoodController : MonoBehaviour
         if (spoonValue > 0)
         {
             spoonValue -= 1;
-
+            // 隐藏按键提示图片
+            aKeyImage.gameObject.SetActive(false);
+            dKeyImage.gameObject.SetActive(false);
 
             // 更换勺子状态（少一些饭菜）
             spoonCursor.sprite = spoonCondition[spoonValue];

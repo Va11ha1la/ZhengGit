@@ -19,6 +19,7 @@ public class TipsController : MonoBehaviour
 
     public void CloseTips()
     {
+        SoundManager.instance.PlaySound(Globals.Button1,0.8f);
         tips.hasShowed = true;
         Time.timeScale = 1;
         gameObject.SetActive(false);

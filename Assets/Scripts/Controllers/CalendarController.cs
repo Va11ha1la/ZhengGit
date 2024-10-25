@@ -211,7 +211,7 @@ public class CalendarController : MonoBehaviour
     {
         for(int i = 0; i < DateSlots.Length; i++)
         {
-            DateSlots[i].gameObject.SetActive(false);
+            //DateSlots[i].gameObject.SetActive(false);
         }
         SceneManager.LoadScene("StartScene");
         

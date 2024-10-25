@@ -197,6 +197,8 @@ public class StartSceneController : MonoBehaviour
             SaveDayCheckData();
             transitionAnimator.SetActive(true);
             transitionAnimator.GetComponent<Animator>().SetTrigger("StartTrans");
+            dayCheck.ClickCheck = 0;
+            SaveDayCheckData();
             StartCoroutine(LoadSceneAfterAnimation());
             return true;
 

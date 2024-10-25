@@ -3276,7 +3276,7 @@ PrefabInstance:
     - target: {fileID: 424819398786317973, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
       propertyPath: tips
       value: 
-      objectReference: {fileID: 11400000, guid: 95f6dc78e415a274e89eaab9b60e0a03, type: 2}
+      objectReference: {fileID: 11400000, guid: e9e91d216313c4245a4e6558e4880bf7, type: 2}
     - target: {fileID: 2800470090350324957, guid: 12f6253c1eb5978408b7499b9852a641, type: 3}
       propertyPath: m_Name
       value: Tips
