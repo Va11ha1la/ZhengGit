@@ -35,6 +35,7 @@ public class TableSceneController : MonoBehaviour
                 break; 
         }
         Texture2D texture = Resources.Load<Texture2D>($"Image/Table/{dayCheck.DayCount+1}{c}_table");
+        if (texture == null) texture = Resources.Load<Texture2D>($"Image/Table/1{c}_table");
         backgroundImage.sprite =Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
         
         Texture2D notebook=Resources.Load<Texture2D>($"Image/Table/{c}_notebook");
