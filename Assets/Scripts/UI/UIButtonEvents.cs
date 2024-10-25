@@ -38,8 +38,13 @@ public class UIButtonEvents : MonoBehaviour
         
     }
 
+    public void TimeBack()
+    {
+        Time.timeScale = 1;
+    }
     public void LoadScene(string scene)
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(scene);
     }
 }
