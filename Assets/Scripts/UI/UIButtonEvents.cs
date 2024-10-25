@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class UIButtonEvents : MonoBehaviour
 {
     public GameObject button;
+    public GameObject panel;
     private void Start()
     {
         transform.GetChild(0).GetComponent<Button>().onClick.AddListener(() => button.SetActive(true));
@@ -51,5 +52,12 @@ public class UIButtonEvents : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public CheckGameSituation checkGameSituation;
+    public void reset()
+    {
+        if(!checkGameSituation.isStarted)
+            panel.SetActive(true);
     }
 }

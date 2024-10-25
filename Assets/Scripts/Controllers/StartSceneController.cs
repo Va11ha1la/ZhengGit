@@ -138,7 +138,7 @@ public class StartSceneController : MonoBehaviour
 
     IEnumerator MoveCameraToShowLevelSelect()
     {
-        startBtn.gameObject.SetActive(false);
+        startBtn.transform.parent.gameObject.SetActive(false);
         //while (Vector3.Distance(cameraTransform.position, cameraTargetPosition) > 0.01f)
         //{
 
