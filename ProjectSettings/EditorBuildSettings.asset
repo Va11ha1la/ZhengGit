@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EatFoodScene.unity
     guid: 5707f773786bdf74d97a08a55d571f5c
+  - enabled: 1
+    path: Assets/Scenes/End.unity
+    guid: 84e14934d445d8246b90ca01361be246
   m_configObjects: {}
